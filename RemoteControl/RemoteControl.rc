@@ -1,0 +1,601 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\RemoteControl.rc2""  // ?¤? Microsoft Visual C++ ?à¨¤?-|ì??á¨o???\r\n"
+    "#include ""l.CHS\\afxres.rc""          // ?à¨o?á??á¨|?t\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\RemoteControl.ico"
+IDR_REMOTECONTROLTYPE   ICON                    "res\\RemoteControlDoc.ico"
+IDI_DOC_MANAGE          ICON                    "res\\docmg.ico"
+IDI_TERMINAL            ICON                    "res\\Terminal.ico"
+IDI_DESKTOP             ICON                    "res\\DeskTop.ico"
+IDI_SHUTDOWN            ICON                    "res\\shutdown.ico"
+IDI_NO_FULL_SCREEN      ICON                    "res\\nofullscreen.ico"
+IDI_FULL_SCREEN         ICON                    "res\\fullscreen.ico"
+IDI_MY_DOC              ICON                    "res\\mydoc.ico"
+IDI_COMPUTER            ICON                    "res\\conputer.ico"
+IDI_DIR                 ICON                    "res\\dir.ico"
+IDI_DISK                ICON                    "res\\disk.ico"
+IDI_FILE                ICON                    "res\\file.ico"
+IDI_DT                  ICON                    "res\\dt.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "文件(&F)"
+    BEGIN
+        MENUITEM "退出(&X)",                      ID_APP_EXIT
+    END
+    POPUP "视图(&V)"
+    BEGIN
+        MENUITEM "状态栏(&S)",                     ID_VIEW_STATUS_BAR
+        MENUITEM "客户端列表(&C)",                   ID_CLIENT_LIST
+    END
+    POPUP "工具(&T)"
+    BEGIN
+        MENUITEM "下载(&D)",                      ID_DOWNLOAD
+        MENUITEM SEPARATOR
+        MENUITEM "选项(&O)",                      ID_OPTION
+    END
+    POPUP "帮助(&H)"
+    BEGIN
+        MENUITEM "关于 RemoteControl(&A)...",     ID_APP_ABOUT
+    END
+END
+
+IDR_CLIENT_LIST MENU 
+BEGIN
+    POPUP " "
+    BEGIN
+        MENUITEM "刷新(&F)",                      ID_FLUSH
+        MENUITEM SEPARATOR
+        MENUITEM "推送桌面",                        ID_PUSH_SERVER
+        MENUITEM "取消推送",                        ID_CANCEL_PUSH
+        MENUITEM SEPARATOR
+        MENUITEM "CMD",                         ID_CMD
+        MENUITEM "文件管理",                        ID_FILE_MANAGE
+    END
+END
+
+IDR_CMD_SHUTDOWN MENU 
+BEGIN
+    POPUP " "
+    BEGIN
+        MENUITEM "停止监控",                        ID_STOP_CTRL
+        MENUITEM "关闭客户端",                       ID_EXIT_CLIENT
+        MENUITEM SEPARATOR
+        MENUITEM "关机",                          ID_SHUTDWON_CLIENT
+        MENUITEM "重启",                          ID_RESARTE_CLIENT
+        MENUITEM "注销",                          ID_LOGIN_OUT
+        MENUITEM SEPARATOR
+        MENUITEM "字母雨",                         ID_LETTER_RAIN
+    END
+END
+
+IDR_ICON_MENU MENU 
+BEGIN
+    POPUP " "
+    BEGIN
+        MENUITEM "关于(&A)",                      ID_ABOUT
+        MENUITEM "退出(&E)",                      ID_EXIT
+    END
+END
+
+IDR_CMD_MENU MENU 
+BEGIN
+    POPUP " "
+    BEGIN
+        MENUITEM "复制(&Y)\tCtrl+C",              ID_COPY
+        MENUITEM "剪切(&T)\tCtrl+X",              ID_CUT
+        MENUITEM "粘贴(&P)\tCtrl+V",              ID_PAST
+    END
+END
+
+IDR_FILE_TREE_MENU MENU 
+BEGIN
+    POPUP " "
+    BEGIN
+        MENUITEM "刷新",                          ID_FLUSH
+        MENUITEM SEPARATOR
+        MENUITEM "下载",                          ID_DOWNLOAD
+        MENUITEM "上传",                          ID_UPLOAD
+        MENUITEM SEPARATOR
+        MENUITEM "删除",                          ID_DELETE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    "C",            ID_COPY,                VIRTKEY, CONTROL, NOINVERT
+    "X",            ID_CUT,                 VIRTKEY, CONTROL, NOINVERT
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    "V",            ID_PAST,                VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于 RemoteControl"
+FONT 9, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,20,20
+    LTEXT           "RemoteControl, Version 1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2013",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "确定",IDOK,113,41,50,14,WS_GROUP
+END
+
+IDD_PANE DIALOGEX 0, 0, 220, 123
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+END
+
+IDD_CMDTABLE DIALOGEX 0, 0, 215, 74
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    ICON            IDI_TERMINAL,IDC_TERMINAL,7,7,20,20,SS_NOTIFY | SS_CENTERIMAGE
+    ICON            IDI_DESKTOP,IDC_DESKTOP,47,7,20,20,SS_NOTIFY | SS_CENTERIMAGE
+    ICON            IDI_DOC_MANAGE,IDC_DOC_MANAGER,87,7,20,20,SS_NOTIFY | SS_CENTERIMAGE
+    CONTROL         "桌面控制",IDC_DESKTOP_CTRL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,33,48,10
+    ICON            IDI_SHUTDOWN,IDC_SHUTDOWN,123,7,20,20,SS_NOTIFY | SS_CENTERIMAGE
+    CONTROL         "",IDC_SLIDE_QUALITY,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | TBS_TRANSPARENTBKGND | WS_TABSTOP,37,52,72,15,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_ET_FLUENCY,110,32,18,12,ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_SP_FLUENCY,"msctls_updown32",UDS_ARROWKEYS,149,31,11,14
+    LTEXT           "流畅度",IDC_FLUENCY_LABEL,71,33,25,8
+    LTEXT           "图像质量",IDC_ST_QUALITY,7,59,33,8
+    LTEXT           "静态",IDC_ST_QUALITY_NUM,191,59,17,8
+    ICON            IDI_FULL_SCREEN,IDC_FULL_SCREEN,174,7,20,20,SS_NOTIFY | SS_CENTERIMAGE
+    CTEXT           "1",IDC_INDEX_LABEL,168,41,8,8,SS_NOTIFY,WS_EX_TRANSPARENT
+END
+
+IDD_PUSH_SETTING DIALOGEX 0, 0, 213, 154
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_SCREEN_FLUENCY,16,20,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_FLUENCY_SPBIN,"msctls_updown32",UDS_ARROWKEYS,56,19,11,14
+    CONTROL         "",IDC_SCREEN_QUALITY,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | TBS_TOOLTIPS | WS_TABSTOP,16,116,156,15
+    CONTROL         "锁定比率",IDC_LOCK_SEZI_RATIO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,58,48,10
+    LTEXT           "宽度",IDC_STATIC,16,75,17,8
+    EDITTEXT        IDC_SCREEN_SIZE_W,38,73,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "高度",IDC_STATIC,134,75,17,8
+    EDITTEXT        IDC_SCREEN_SIZE_H,156,73,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    CTEXT           "静态",IDC_ST_QUALITY_NUM,174,119,25,8
+    GROUPBOX        "分辨率",IDC_STATIC,7,46,198,47
+    CTEXT           "最大分辨率",IDC_MAX_SIZE,72,60,127,8
+    LTEXT           "频率",IDC_FLUENCY_TEXT,74,22,123,8
+    GROUPBOX        "图像质量",IDC_STATIC,7,103,198,34
+    GROUPBOX        "流畅度",IDC_STATIC,7,8,198,29
+END
+
+IDD_CMD_VIEW DIALOGEX 0, 0, 316, 186
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "CMD"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_ET_CMD_VIEW,0,0,316,185,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_NOHIDESEL | ES_WANTRETURN | WS_VSCROLL
+END
+
+IDD_SETTING DIALOGEX 0, 0, 230, 189
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "选项"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "确定",IDOK,53,168,50,14
+    PUSHBUTTON      "取消",IDCANCEL,113,168,50,14
+    CONTROL         "",IDC_TAB,"SysTabControl32",0x0,7,7,216,157
+    PUSHBUTTON      "应用",IDC_APPLY,173,168,50,14,WS_DISABLED
+END
+
+IDD_CMD_SETTING DIALOGEX 0, 0, 217, 154
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "字体",IDC_FONT,178,7,32,14
+    PUSHBUTTON      "背景",IDC_BG_ROUNF,178,28,32,14
+    EDITTEXT        IDC_ET_PREVIEW,7,7,165,132,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+END
+
+IDD_DOC_MANAGE_DLG DIALOGEX 0, 0, 316, 185
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "文件管理"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_FILE_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_INFOTIP | WS_BORDER | WS_HSCROLL | WS_TABSTOP,0,0,315,185,WS_EX_TRANSPARENT
+END
+
+IDD_DOWNLOAD_DLG DIALOGEX 0, 0, 267, 115
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "下载/上传列表"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_DOWNLOAD_LIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,0,0,260,108
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "CompanyName", "中南林业科技大学"
+            VALUE "FileDescription", "远程控制服务端"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "RemoteControl.exe"
+            VALUE "LegalCopyright", "(C) 中南林。保留所有权利。"
+            VALUE "OriginalFilename", "RemoteControl.exe"
+            VALUE "ProductName", "远程控制"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_PANE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 213
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 116
+    END
+
+    IDD_CMDTABLE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 208
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 67
+    END
+
+    IDD_PUSH_SETTING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 206
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 147
+    END
+
+    IDD_CMD_VIEW, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 179
+    END
+
+    IDD_SETTING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 223
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 182
+    END
+
+    IDD_CMD_SETTING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 147
+    END
+
+    IDD_DOC_MANAGE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 178
+    END
+
+    IDD_DOWNLOAD_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 260
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 108
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "RemoteControl\n\nRemoteControl\n\n\nRemoteControl.Document\nRemoteControl.Document"
+    IDS_NOT_ONLINE          "不在线"
+    IDS_NOTIFY              "提示"
+    IDS_CUR_CLIENT_NOT_ONLINE "当前客户端不在线!"
+    IDP_SOCKETS_INIT_FAILED "Windows 套接字初始化失败。"
+    IDS_ONLINE              "在线"
+    IDS_CLOSED              "离线"
+    IDS_WAITE_FOR_CAPTURE_TIMEOUT "等待客户端{{_STR_}}屏幕数据超时！"
+    IDS_SCREEN_SIZE         "显示器分辨率"
+    IDS_APP_IS_RUNNING      "服务程序已经运行了。"
+    IDS_SHUT_DOWN_FALIED    "{{_STR_}}关机失败！"
+    IDS_RESTART_FALIED      "{{_STR_}}重启失败！"
+    IDS_LOGINOUT_FALIED     "{{_STR_}}注销失败！"
+    IDS_START_CMD_FAILED    "启动CMD失败！"
+    IDS_PUSH                "推送"
+    IDS_CMD                 "CMD"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "RemoteControl"
+    AFX_IDS_IDLEMESSAGE     "就绪"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "创建新文档\n新建"
+    ID_FILE_OPEN            "打开现有文档\n打开"
+    ID_FILE_CLOSE           "关闭活动文档\n关闭"
+    ID_FILE_SAVE            "保存活动文档\n保存"
+    ID_FILE_SAVE_AS         "用新名称保存活动文档\n另存为"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "显示程序信息、版本号和版权\n关于"
+    ID_APP_EXIT             "退出应用程序；提示保存文档\n退出"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "打开此文档"
+    ID_FILE_MRU_FILE2       "打开此文档"
+    ID_FILE_MRU_FILE3       "打开此文档"
+    ID_FILE_MRU_FILE4       "打开此文档"
+    ID_FILE_MRU_FILE5       "打开此文档"
+    ID_FILE_MRU_FILE6       "打开此文档"
+    ID_FILE_MRU_FILE7       "打开此文档"
+    ID_FILE_MRU_FILE8       "打开此文档"
+    ID_FILE_MRU_FILE9       "打开此文档"
+    ID_FILE_MRU_FILE10      "打开此文档"
+    ID_FILE_MRU_FILE11      "打开此文档"
+    ID_FILE_MRU_FILE12      "打开此文档"
+    ID_FILE_MRU_FILE13      "打开此文档"
+    ID_FILE_MRU_FILE14      "打开此文档"
+    ID_FILE_MRU_FILE15      "打开此文档"
+    ID_FILE_MRU_FILE16      "打开此文档"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NEXT_PANE            "切换到下一个窗格\n下一窗格"
+    ID_PREV_PANE            "切换回上一个窗格\n上一窗格"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "将活动窗口拆分为多个窗格\n拆分"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CLEAR           "清除选定内容\n清除"
+    ID_EDIT_CLEAR_ALL       "清除全部内容\n全部清除"
+    ID_EDIT_COPY            "复制选定内容并将其放到剪贴板上\n复制"
+    ID_EDIT_CUT             "剪切选定内容并将其放到剪贴板上\n剪切"
+    ID_EDIT_FIND            "查找指定的文本\n查找"
+    ID_EDIT_PASTE           "插入剪贴板内容\n粘贴"
+    ID_EDIT_REPEAT          "重复上一操作\n重复"
+    ID_EDIT_REPLACE         "用其他文本替换特定的文本\n替换"
+    ID_EDIT_SELECT_ALL      "选定整个文档\n全选"
+    ID_EDIT_UNDO            "撤消上一操作\n撤消"
+    ID_EDIT_REDO            "恢复上次撤消的操作\n重做"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_STATUS_BAR      "显示或隐藏状态栏\n切换状态栏"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "更改窗口大小"
+    AFX_IDS_SCMOVE          "更改窗口位置"
+    AFX_IDS_SCMINIMIZE      "将窗口缩小为图标"
+    AFX_IDS_SCMAXIMIZE      "使窗口最大化显示"
+    AFX_IDS_SCNEXTWINDOW    "切换到下一个文档窗口"
+    AFX_IDS_SCPREVWINDOW    "切换到前一个文档窗口"
+    AFX_IDS_SCCLOSE         "关闭活动窗口并提示保存文档"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "将窗口恢复到正常大小"
+    AFX_IDS_SCTASKLIST      "激活任务列表"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_NOT_EXE_CMD         """{{_STR_}}""此命令不可执行！"
+    IDS_MY_DOC              "我的文档"
+    IDS_COMPUTER            "计算机"
+    IDS_DESKTOP             "桌面"
+    IDS_DELETE_SUCCESS      "删除成功！"
+    IDS_DELETE_FAILED       "删除失败!"
+    IDS_UD_ERROR            "失败"
+    IDS_UD_OVER             "完成"
+    IDS_YES                 "是"
+    IDS_NO                  "否"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_CLIENT_CNT           "客户端数量："
+    ID_ONLINT_CLIENT_CNT    "在线："
+    ID_PUSH_CLINT_CNT       "已推送："
+END
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\RemoteControl.rc2"  // ?¤? Microsoft Visual C++ ?à¨¤?-|ì??á¨o???
+#include "l.CHS\afxres.rc"          // ?à¨o?á??á¨|?t
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

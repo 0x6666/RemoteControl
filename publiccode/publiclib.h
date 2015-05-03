@@ -1,0 +1,148 @@
+///////////////////////////////////////////////////////////////
+//
+// FileName	: publiclib.h 
+// Creator	: 杨松
+// Date		: 2013年3月6日, 23:16:42
+// Comment	: 客户端和服务端同时需要使用的一个库
+//
+//////////////////////////////////////////////////////////////
+
+
+#ifndef  _PUBLIB_LIB_H_
+#define  _PUBLIB_LIB_H_
+
+#include "msg.h"
+
+//#define USE_MSG_QUEUE
+
+//////////////////////////////////////////////////////////////////////////
+//消息池
+
+//消息发送器接口
+interface  Dispatcher{
+	//////////////////////////////////////////////////////////////////////////
+	//消息派送
+	//param
+	//		msg		具体的消息数据
+	//		ip		发送过来的主机IP
+	//		port	发送过来的端口
+	virtual void DispatchMsg(const void* msg , CString ip, UINT port) =0;
+};
+
+class MainSocket;
+class MsgQueue; 
+
+class /*PUBLIB_API*/ MsgCenter{
+
+public:
+	MsgCenter();
+
+	//////////////////////////////////////////////////////////////////////////
+	//初始化消息中心
+	//param
+	//		dispatcher	消息派送器
+	//		port		监听端口
+	//		reuseaddr	是否设置SO_REUSEADDR标志
+	//		recv		是否需要接受消息
+	//		send		是否需要发送消息
+	BOOL InitMsgCenter(Dispatcher* dispatcher ,UINT port ,BOOL reuseaddr, BOOL recv = TRUE , BOOL send = TRUE);
+
+	//////////////////////////////////////////////////////////////////////////
+	//设置广播属性
+	//param
+	//		roadcase	TRUE->设置广播状态，FALSE->取消广播状态
+	//return 
+	//		TRUE	设置成功
+	//		FALSE	设置失败
+	BOOL SetBroadcast(BOOL roadcase = TRUE);
+
+	//////////////////////////////////////////////////////////////////////////
+	//是否是广播发送消息
+	BOOL IsBroadcast();
+
+	//////////////////////////////////////////////////////////////////////////
+	//将要发送的数据添加到数据池
+	//param
+	//		addr	接收消息的目标地址
+	//		port	接受消息的目标端口
+	//		data	要发送的数据
+	//return 
+	//		FALSE	发送失败
+	//		TRUE	添加消息成功
+	BOOL SendMsg(const CString& addr , UINT port , const void* data );
+
+	//////////////////////////////////////////////////////////////////////////
+	//关闭消息中心
+	void Close();
+
+	//////////////////////////////////////////////////////////////////////////
+	//获取消息派送器
+	Dispatcher* GetDispatcher();
+
+	//////////////////////////////////////////////////////////////////////////
+	//获得主套接字
+	MainSocket* GetMainSocket();
+	
+	//////////////////////////////////////////////////////////////////////////
+	//获取当前消息中心的所监听的端口
+	//return 
+	//		0		获取端口失败
+	//		其他	当前监听的端口
+	USHORT GetMsgPort();
+
+#ifdef USE_MSG_QUEUE
+
+	//////////////////////////////////////////////////////////////////////////
+	//获得发送消息队列
+	MsgQueue* GetSendMsgQueue();
+	
+	//////////////////////////////////////////////////////////////////////////
+	//判断发送消息的线程是否在运行
+	int IsSendThreadRunning();
+
+	//////////////////////////////////////////////////////////////////////////
+	//获得派送消息队列
+	MsgQueue* GetDispatchMsgQueue();
+
+	//////////////////////////////////////////////////////////////////////////
+	//判断派送消息的线程是否在运行
+	int IsDispatchThreadRunning();
+
+	//////////////////////////////////////////////////////////////////////////
+	//获得派送消息队列互斥量
+	void* GetDispatchQueueMutex();
+
+	//////////////////////////////////////////////////////////////////////////
+	//获得派送消息线程事件
+	void* GetDispatchThreadEvent();
+	void* GetSendQueueMutex();
+	void* GetSendThreadEvent();
+#endif // USE_MSG_QUEUE
+
+private:
+
+	//收到的消息派遣行函数
+	Dispatcher* m_pDispatch;
+
+	//套接字
+	MainSocket* m_pMainSocket;
+
+#ifdef USE_MSG_QUEUE
+	//发送消息队列，线程...
+	MsgQueue*	m_pSendQueue;
+	void*	m_hSendQueueMutex;
+	void*	m_hSendThread;
+	void*	m_hSendThreadEvent;
+	volatile long m_iSendThreadRunning;
+
+
+	//派送消息队列，线程...
+	MsgQueue*	m_pDispatchQueue;
+	void*	m_hDispatchQueueMutex;
+	void*	m_hDispatchThreadEvent;
+	void*	m_hDispatchThread;
+	volatile long m_iDispatchThreadRunning;
+#endif
+};
+
+#endif
