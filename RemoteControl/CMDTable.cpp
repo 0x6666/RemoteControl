@@ -90,7 +90,7 @@ void CCMDTable::SmoothShowWindow()
 	int y = parentRc.top + 10;
 // 	for (int i = 1 ; i <= MAX_HIEGTH ; ++i )
 // 	{
-		this->SetWindowPos(NULL , x , y , MAX_WIDTH , MAX_HIEGTH/*i*/ , SWP_SHOWWINDOW);
+		SetWindowPos(NULL , x , y , MAX_WIDTH , MAX_HIEGTH/*i*/ , SWP_SHOWWINDOW);
 //	}
 
 	{//显示需要显示的控件
@@ -119,7 +119,7 @@ void CCMDTable::ShowAsIndexLabel()
 	m_pParent->GetWindowRect(&parentRc);
 	int x = parentRc.left + 10;
 	int y = parentRc.top + 10;
-	this->SetWindowPos(NULL , x , y , m_szLabelSize.cx , m_szLabelSize.cy, SWP_SHOWWINDOW);
+	SetWindowPos(NULL , x , y , m_szLabelSize.cx , m_szLabelSize.cy, SWP_SHOWWINDOW);
 
 	{//隐藏不需要显示的控件
 	m_wndShutdwon.ShowWindow(SW_HIDE);
@@ -150,9 +150,9 @@ void CCMDTable::ShowAsIndexLabel()
 // 	int y = parentRc.top +10;
 // 	// 	for (int i = MAX_HIEGTH ; i >= 0 ; --i )
 // 	// 	{
-// 	this->SetWindowPos(NULL , x , y , MAX_WIDTH , /*i*/0 , SWP_SHOWWINDOW);
+// 	SetWindowPos(NULL , x , y , MAX_WIDTH , /*i*/0 , SWP_SHOWWINDOW);
 // 	//	}
-// 	this->ShowWindow(SW_HIDE);
+// 	ShowWindow(SW_HIDE);
 // }
 
 // CCMDTable 消息处理程序
@@ -165,20 +165,20 @@ void CCMDTable::OnStnClickedTerminal()
 void CCMDTable::OnStnClickedDesktop()
 {
 	CRect parentRc;
-	this->GetClientRect(&parentRc);
+	GetClientRect(&parentRc);
 
 	if (parentRc.Height() == m_nFullHieght)
 	{//该缩小了
 // 		for (int i = parentRc.Height() ; i >= MAX_HIEGTH ; --i )
 // 		{
-			this->SetWindowPos(NULL , 0 , 0 , MAX_WIDTH , MAX_HIEGTH/*i*/ , SWP_NOMOVE|SWP_SHOWWINDOW);
+			SetWindowPos(NULL , 0 , 0 , MAX_WIDTH , MAX_HIEGTH/*i*/ , SWP_NOMOVE|SWP_SHOWWINDOW);
 //		}
 	}
 	else if(parentRc.Height() == MAX_HIEGTH)
 	{//需要放大
 // 		for (int i = parentRc.Height() ; i <= m_nFullHieght ; ++i )
 // 		{
-			this->SetWindowPos(NULL , 0 , 0 , MAX_WIDTH , m_nFullHieght/*i */, SWP_NOMOVE|SWP_SHOWWINDOW);
+			SetWindowPos(NULL , 0 , 0 , MAX_WIDTH , m_nFullHieght/*i */, SWP_NOMOVE|SWP_SHOWWINDOW);
 //		}
 	}
 }
@@ -193,18 +193,18 @@ BOOL CCMDTable::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	//添加窗口分层属性
-	SetWindowLong(this->GetSafeHwnd() , GWL_EXSTYLE ,
-		GetWindowLong(this->GetSafeHwnd() , GWL_EXSTYLE)^WS_EX_LAYERED);
+	SetWindowLong(GetSafeHwnd() , GWL_EXSTYLE ,
+		GetWindowLong(GetSafeHwnd() , GWL_EXSTYLE)^WS_EX_LAYERED);
 	//设置窗口透明效果
-	SetLayeredWindowAttributes(/*this->GetSafeHwnd() ,*/ 0 , 200 , LWA_ALPHA);
+	SetLayeredWindowAttributes(/*GetSafeHwnd() ,*/ 0 , 200 , LWA_ALPHA);
 	
 	{//设置索引
 	CString temp;
 	temp.Format(_T("%d") , m_iClientID);
-	m_szLabelSize = this->m_wndIndexLebel.GetDC()->GetTextExtent(temp);
+	m_szLabelSize = m_wndIndexLebel.GetDC()->GetTextExtent(temp);
 	m_szLabelSize.cx += 6;
 	//m_szLabelSize.cy += 4;
-	this->m_wndIndexLebel.SetWindowText(temp);
+	m_wndIndexLebel.SetWindowText(temp);
 	::MoveWindow(m_wndIndexLebel.GetSafeHwnd() , 0 , 0 , m_szLabelSize.cx , m_szLabelSize.cy, FALSE);
 	}//设置索引
 
@@ -269,10 +269,10 @@ void CCMDTable::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
 	if (pScrollBar == (CScrollBar*)&m_wndQualitySlide)
 	{
-		int pos = this->m_wndQualitySlide.GetPos();
+		int pos = m_wndQualitySlide.GetPos();
 		CString strTemp;
 		strTemp.Format(_T("%d") , pos);
-		this->m_wndQualityNum.SetWindowText(strTemp);
+		m_wndQualityNum.SetWindowText(strTemp);
 
 		//给发送消息了
 		m_pParent->PostMessage(WM_CHANGE_SCREEN_AUALITY , pos , 0);
@@ -295,7 +295,7 @@ void CCMDTable::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 }
 void CCMDTable::OnBnClickedDesktopCtrl()
 {
-	BOOL  isChecked = this->m_wndDesktopCtrl.GetCheck();
+	BOOL  isChecked = m_wndDesktopCtrl.GetCheck();
 	m_pParent->PostMessage(WM_SCREEN_CTRL , isChecked , 0);
 }
 
@@ -422,13 +422,13 @@ void CCMDTable::OnMove(int x, int y)
 
 	//当窗口移动后将显示为索引lebel
 	if (IsWindow(m_wndIndexLebel.GetSafeHwnd()))
-		this->ShowAsIndexLabel();
+		ShowAsIndexLabel();
 }
 
 
 void CCMDTable::OnStnClickedIndexLabel()
 {
-	this->SmoothShowWindow();
+	SmoothShowWindow();
 }
 
 BOOL CCMDTable::IsShowAsLabel()

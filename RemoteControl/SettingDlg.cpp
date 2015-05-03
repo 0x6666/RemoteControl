@@ -131,30 +131,30 @@ BOOL CSettingDlg::DestroyWindow()
 void CSettingDlg::ValueChanged()
 {
 	//有数据改变
-	this->GetDlgItem(IDC_APPLY)->EnableWindow(TRUE);
+	GetDlgItem(IDC_APPLY)->EnableWindow(TRUE);
 }
 
 void CSettingDlg::OnBnClickedApply()
 {
-	if(this->m_pPushPane->IsValueChanged())
+	if(m_pPushPane->IsValueChanged())
 	{//推送的配置数据修改了
-		PUSH_CFG_V pushValue = this->m_pPushPane->GetValue();
+		PUSH_CFG_V pushValue = m_pPushPane->GetValue();
 		m_pDoc->ChangePushCfgValue(&pushValue);
 		m_pPushPane->ValueApplied();
 	}
 
-	if(this->m_pCmdPane->IsValueChanged())
+	if(m_pCmdPane->IsValueChanged())
 	{//CMD的配置数据修改了
-		CMD_CFG_V cmdValue = this->m_pCmdPane->GetValue();
+		CMD_CFG_V cmdValue = m_pCmdPane->GetValue();
 		m_pDoc->ChangeCMDCfgValue(&cmdValue);
 		m_pCmdPane->ValueApplied();
 	}
-	this->GetDlgItem(IDC_APPLY)->EnableWindow(FALSE);
+	GetDlgItem(IDC_APPLY)->EnableWindow(FALSE);
 }
 
 void CSettingDlg::OnBnClickedOk()
 {
-	if(this->GetDlgItem(IDC_APPLY)->IsWindowEnabled())
+	if(GetDlgItem(IDC_APPLY)->IsWindowEnabled())
 		OnBnClickedApply();
 	OnOK();
 }

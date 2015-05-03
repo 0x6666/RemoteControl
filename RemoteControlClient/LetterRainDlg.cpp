@@ -110,9 +110,9 @@ int CLetterRainDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 
 	//开启定时器
-	::SetTimer(this->m_hWnd , LETTER_RAIN_TIMER , 10 , NULL) ;
+	::SetTimer(m_hWnd , LETTER_RAIN_TIMER , 10 , NULL) ;
 
-	HDC hdc  = ::GetDC(this->m_hWnd);
+	HDC hdc  = ::GetDC(m_hWnd);
 	m_hDCMem   = ::CreateCompatibleDC(hdc);
 	m_hBitmap  = ::CreateCompatibleBitmap(hdc, SCREEN_SIZE_W , SCREEN_SIZE_H);
 	::SelectObject(m_hDCMem, m_hBitmap);
@@ -148,7 +148,7 @@ void CLetterRainDlg::OnTimer(UINT_PTR nIDEvent)
 	PCharChain pTemp = NULL;
 	if(nIDEvent == LETTER_RAIN_TIMER)
 	{
-		HDC hdc = ::GetDC(this->m_hWnd);
+		HDC hdc = ::GetDC(m_hWnd);
 		//将内存设备映像刷成黑色
 		::PatBlt( m_hDCMem , 0 , 0 , SCREEN_SIZE_W , SCREEN_SIZE_H , BLACKNESS) ; 
 		for(int i = 0; i < m_iColumnCount; i++)
@@ -202,7 +202,7 @@ void CLetterRainDlg::OnTimer(UINT_PTR nIDEvent)
 void CLetterRainDlg::OnDestroy()
 {
 	//销毁定时器
-	::KillTimer(this->m_hWnd, LETTER_RAIN_TIMER);
+	::KillTimer(m_hWnd, LETTER_RAIN_TIMER);
 	
 	//删除位图
 	DeleteObject(m_hBitmap);
@@ -234,7 +234,7 @@ BOOL CLetterRainDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 	
 	//设置窗口为最顶层窗口，且全屏
-	::SetWindowPos(this->GetSafeHwnd() , HWND_TOPMOST , 0 , 0 , SCREEN_SIZE_W, SCREEN_SIZE_W , SWP_SHOWWINDOW);
+	::SetWindowPos(GetSafeHwnd() , HWND_TOPMOST , 0 , 0 , SCREEN_SIZE_W, SCREEN_SIZE_W , SWP_SHOWWINDOW);
 
 	//隐藏光标
 	::ShowCursor(FALSE);

@@ -15,7 +15,7 @@ AutoSizeStream::AutoSizeStream()
 	m_uCurrent.QuadPart = 0;
 	m_lpData = malloc(1);
 	m_uSize.QuadPart = 1;
-	this->m_uValidSize.QuadPart = 0;
+	m_uValidSize.QuadPart = 0;
 }
 
 AutoSizeStream::~AutoSizeStream()
@@ -40,7 +40,7 @@ AutoSizeStream* AutoSizeStream::CreateAutoSizeStream()
 
 LPCVOID AutoSizeStream::GetStreamData()
 {
-	if (0 == this->m_uValidSize.QuadPart)
+	if (0 == m_uValidSize.QuadPart)
 		return NULL;
 	else
 		return m_lpData;
@@ -97,22 +97,22 @@ HRESULT STDMETHODCALLTYPE AutoSizeStream::Write(const void *pv, ULONG cb, ULONG 
 	validSize.QuadPart += cb;
 
 	//空间不足？
-	if(validSize.QuadPart > this->m_uSize.QuadPart)
+	if(validSize.QuadPart > m_uSize.QuadPart)
 	{
 		LPVOID pData = realloc(m_lpData , (size_t)validSize.QuadPart);
 		if (NULL == pData)//分配内存失败？
 			return STG_E_CANTSAVE;
 		//分配成功
 		m_lpData = pData;
-		this->m_uSize = validSize;
+		m_uSize = validSize;
 	}
 
 	//拷贝数据到流中去
-	memcpy(((BYTE*)m_lpData) + this->m_uCurrent.QuadPart , pv , cb);
+	memcpy(((BYTE*)m_lpData) + m_uCurrent.QuadPart , pv , cb);
 
 	//当前读写指针
-	this->m_uCurrent.QuadPart += cb;
-	this->m_uValidSize = m_uCurrent;
+	m_uCurrent.QuadPart += cb;
+	m_uValidSize = m_uCurrent;
 	if (pcbWritten) *pcbWritten = cb;
 
 	return S_OK;

@@ -103,7 +103,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	//初始化托盘图标变量
 	m_notifyIcon.cbSize = sizeof(NOTIFYICONDATA);
-	m_notifyIcon.hWnd	= this->GetSafeHwnd();   
+	m_notifyIcon.hWnd	= GetSafeHwnd();   
 	m_notifyIcon.uID	= ICON_INDEX_C;   
 	m_notifyIcon.uFlags = NIF_ICON|NIF_MESSAGE|NIF_TIP;   
 	m_notifyIcon.uCallbackMessage = WM_NOTIFYION_MSG_C;//自定义的消息名称   
@@ -242,7 +242,7 @@ void CMainFrame::DispatchMsg( const void* msg , CString ip, UINT port )
 		if(FALSE == OnRcStartCmd())
 		{//创建cmd进程失败
 			DEF_RCMSG(rcMsg , MT_START_CMD_FAILED_C);
-			this->m_pMsgCenter->SendMsg(ip , SERVER_MSG_PORT , &rcMsg);
+			m_pMsgCenter->SendMsg(ip , SERVER_MSG_PORT , &rcMsg);
 		}
 		break;
 	case MT_CMD_S://CMD命令
@@ -615,13 +615,13 @@ void CMainFrame::OnRcPushServerDesktop()
 	m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , &rcMsg);
 
 	//在这里显示窗口
-	this->ShowWindow(SW_SHOW);
+	ShowWindow(SW_SHOW);
 
 	{//全屏显示 
 	//去掉标题栏
 	ModifyStyle(WS_CAPTION , 0);
 
-	::SetWindowPos(this->GetSafeHwnd() , HWND_TOPMOST , 0 , 0 , SCREEN_SIZE_W , SCREEN_SIZE_H  , SWP_SHOWWINDOW); 
+	::SetWindowPos(GetSafeHwnd() , HWND_TOPMOST , 0 , 0 , SCREEN_SIZE_W , SCREEN_SIZE_H  , SWP_SHOWWINDOW); 
 	//隐藏鼠标
 	::ShowCursor(FALSE);
 	}//全屏显示 
@@ -647,7 +647,7 @@ void CMainFrame::OnRcCancelPushDesktop()
 	m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , &rcMsg);
 
 	//隐藏窗口
-	this->ShowWindow(SW_HIDE);
+	ShowWindow(SW_HIDE);
 
 	//显示光标
 	::ShowCursor(FALSE);
@@ -663,7 +663,7 @@ void CMainFrame::OnRcShutdown()
 	if (FALSE == Shutdown(SD_SHUTDOWN))
 	{//操作失败
 		DEF_RCMSG(rcMsg , MT_SHUTDOWN_FALIED_C);
-		this->m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , &rcMsg);
+		m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , &rcMsg);
 	}
 }
 
@@ -672,7 +672,7 @@ void CMainFrame::OnRcRestart()
 	if (FALSE == Shutdown(SD_RESTART))
 	{//操作失败
 		DEF_RCMSG(rcMsg , MT_RESTART_FALIED_C);
-		this->m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , &rcMsg);
+		m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , &rcMsg);
 	}
 }
 
@@ -681,7 +681,7 @@ void CMainFrame::OnRcLoginOut()
 	if (FALSE == Shutdown(SD_LOGIN_OUT))
 	{//操作失败
 		DEF_RCMSG(rcMsg , MT_LOGIN_OUT_FALIED_C);
-		this->m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , &rcMsg);
+		m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , &rcMsg);
 	}
 }
 
@@ -689,12 +689,12 @@ void CMainFrame::OnRcLetterRain( const void* msg )
 {
 	if (1 == *((BYTE*)&(PRCMSG_BUFF(msg)->buf)))
 	{//开启字幕雨
-		if(NULL != this->m_pLetterRainDlg)
+		if(NULL != m_pLetterRainDlg)
 			return ;//已经存在
-		this->m_pLetterRainDlg = new CLetterRainDlg();
-		this->m_pLetterRainDlg->Create(IDD_LETTER_RAIN_DLG , this);
-		this->m_pLetterRainDlg->ShowWindow(SW_SHOW);
-		this->UpdateWindow();
+		m_pLetterRainDlg = new CLetterRainDlg();
+		m_pLetterRainDlg->Create(IDD_LETTER_RAIN_DLG , this);
+		m_pLetterRainDlg->ShowWindow(SW_SHOW);
+		UpdateWindow();
 	}
 	else//停止字幕雨
 		StopLetterRain();
@@ -826,11 +826,11 @@ LRESULT CMainFrame::OnNotifyIconMsg(WPARAM wParam , LPARAM lParam)
 			m.LoadMenu(IDR_ICON_MENU);
 			p = m.GetSubMenu(0);
 			::GetCursorPos(&point);
-			::TrackPopupMenu(p->m_hMenu , TPM_LEFTALIGN|TPM_BOTTOMALIGN , point.x , point.y , 0 , this->GetSafeHwnd() , NULL);
+			::TrackPopupMenu(p->m_hMenu , TPM_LEFTALIGN|TPM_BOTTOMALIGN , point.x , point.y , 0 , GetSafeHwnd() , NULL);
 		}
 		break;
 	case WM_LBUTTONDBLCLK://双击左键的处理   
-		//this->ShowWindow(this->IsWindowVisible()?SW_HIDE:SW_SHOW);
+		//ShowWindow(IsWindowVisible()?SW_HIDE:SW_SHOW);
 		break;   
 	}   
 	return 0;
@@ -839,19 +839,19 @@ LRESULT CMainFrame::OnNotifyIconMsg(WPARAM wParam , LPARAM lParam)
 void CMainFrame::OnExit()
 {
 	//这个需要查询服务器是否同意退出
-	this->OnClose();
+	OnClose();
 }
 
 void CMainFrame::OnHandsUp()
 {
 	//举手
 	DEF_RCMSG(rcMsg , MT_HANDS_UP_C);
-	this->m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , &rcMsg);
+	m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , &rcMsg);
 }
 
 void CMainFrame::OnRepeatFindServer( const CString& ip )
 {
-	this->m_strServerIP = ip;
+	m_strServerIP = ip;
 	
 	//关闭查找服务器的广播
 	StopFindServerBroadcast();
@@ -860,7 +860,7 @@ void CMainFrame::OnRepeatFindServer( const CString& ip )
 	if (FALSE == m_bHeartbeatTimerRun)
 	{
 		m_bHeartbeatTimerRun = TRUE;
-		this->SetTimer(HEARTBEAT_TIMER , HEARTBEAT_PACKETS_TIME/2 , NULL);
+		SetTimer(HEARTBEAT_TIMER , HEARTBEAT_PACKETS_TIME/2 , NULL);
 	}
 
 	//发送监听下载端口
@@ -880,21 +880,21 @@ void CMainFrame::OnRcCMD( const void* msg )
 {
 	PRCMSG_BUFF pMsg = PRCMSG_BUFF(msg);
 	DWORD dwSize = 0;
-	if(!::WriteFile(this->m_cmdContext.hWrite , pMsg->buf , ::strlen(pMsg->buf) , &dwSize , 0))
+	if(!::WriteFile(m_cmdContext.hWrite , pMsg->buf , ::strlen(pMsg->buf) , &dwSize , 0))
 	{//执行命令失败
 		pMsg->msgHead.type = MT_CMD_FAILED_C;
-		this->m_pMsgCenter->SendMsg(m_strServerIP , m_uPort , pMsg);
+		m_pMsgCenter->SendMsg(m_strServerIP , m_uPort , pMsg);
 		return ;
 	}
 }
 
 void CMainFrame::StopLetterRain()
 {
-	if(NULL != this->m_pLetterRainDlg)
+	if(NULL != m_pLetterRainDlg)
 	{//停止字幕雨	
-		this->m_pLetterRainDlg->DestroyWindow();
+		m_pLetterRainDlg->DestroyWindow();
 		delete m_pLetterRainDlg;
-		this->m_pLetterRainDlg = NULL;
+		m_pLetterRainDlg = NULL;
 	}
 }
 
@@ -953,7 +953,7 @@ void CMainFrame::StartFindServerBroadcastTimer()
 		int roadcase = TRUE; 
 		if(TRUE == m_pBroadcastSocket->SetSockOpt( SO_BROADCAST, &roadcase, sizeof(BOOL), SOL_SOCKET))
 		{
-			this->SetTimer(BROADCAST_TIMER , HEARTBEAT_PACKETS_TIME/2 , NULL);
+			SetTimer(BROADCAST_TIMER , HEARTBEAT_PACKETS_TIME/2 , NULL);
 		}
 		else
 		{//设置套接字广播属性失败
@@ -1065,7 +1065,7 @@ void CMainFrame::SendUploadPort()
 	pMsg->msgHead.size = sizeof(RCMSG_BUFF) - 1 + sizeof(USHORT);
 	pMsg->msgHead.type = MT_LISTEN_DOWNLOAD_PORT_C;
 	*((USHORT*)(pMsg->buf)) = m_pDlListenDes->uPort;
-	this->m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , pMsg);
+	m_pMsgCenter->SendMsg(m_strServerIP , SERVER_MSG_PORT , pMsg);
 }
 
 void CMainFrame::OnRcPauseScreen()

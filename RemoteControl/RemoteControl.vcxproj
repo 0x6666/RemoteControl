@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -18,14 +18,14 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <UseOfMfc>Static</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <UseOfMfc>Static</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -40,7 +40,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_ProjectFileVersion>11.0.60315.1</_ProjectFileVersion>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
@@ -66,7 +66,6 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -113,24 +112,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="clientItemView.h" />
-    <ClInclude Include="CMDDlg.h" />
-    <ClInclude Include="CMDSettingPane.h" />
-    <ClInclude Include="CMDTable.h" />
-    <ClInclude Include="CtrlBar.h" />
-    <ClInclude Include="DocManageDlg.h" />
-    <ClInclude Include="DownloadDlg.h" />
-    <ClInclude Include="globalfine.h" />
-    <ClInclude Include="MainFrm.h" />
-    <ClInclude Include="OptionDlg.h" />
-    <ClInclude Include="publicdef.h" />
-    <ClInclude Include="RemoteControl.h" />
-    <ClInclude Include="RemoteControlDoc.h" />
-    <ClInclude Include="RemoteControlView.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="SettingDlg.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
     <ClInclude Include="..\publiccode\autosizestream.h" />
     <ClInclude Include="..\publiccode\configfile.h" />
     <ClInclude Include="..\publiccode\libinnerdef.h" />
@@ -138,6 +119,23 @@
     <ClInclude Include="..\publiccode\publicdef.h" />
     <ClInclude Include="..\publiccode\publiclib.h" />
     <ClInclude Include="..\publiccode\thread.h" />
+    <ClInclude Include="clientItemView.h" />
+    <ClInclude Include="CMDDlg.h" />
+    <ClInclude Include="CMDSettingPane.h" />
+    <ClInclude Include="CMDTable.h" />
+    <ClInclude Include="CtrlBar.h" />
+    <ClInclude Include="DownuploadDlg.h" />
+    <ClInclude Include="FileManageDlg.h" />
+    <ClInclude Include="globalfine.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="PushSettingPane.h" />
+    <ClInclude Include="RemoteControl.h" />
+    <ClInclude Include="RemoteControlDoc.h" />
+    <ClInclude Include="RemoteControlView.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SettingDlg.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\conputer.ico" />
@@ -159,7 +157,6 @@
     <ResourceCompile Include="RemoteControl.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="res\RemoteControl.rc2" />
   </ItemGroup>
   <ItemGroup>
@@ -174,11 +171,11 @@
     <ClCompile Include="CMDSettingPane.cpp" />
     <ClCompile Include="CMDTable.cpp" />
     <ClCompile Include="CtrlBar.cpp" />
-    <ClCompile Include="DocManageDlg.cpp" />
-    <ClCompile Include="DownloadDlg.cpp" />
+    <ClCompile Include="downuploaddlg.cpp" />
+    <ClCompile Include="FileManageDlg.cpp" />
     <ClCompile Include="globalfine.cpp" />
     <ClCompile Include="MainFrm.cpp" />
-    <ClCompile Include="OptionDlg.cpp" />
+    <ClCompile Include="PushSettingPane.cpp" />
     <ClCompile Include="RemoteControl.cpp" />
     <ClCompile Include="RemoteControlDoc.cpp" />
     <ClCompile Include="RemoteControlView.cpp" />

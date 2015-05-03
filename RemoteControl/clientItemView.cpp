@@ -99,7 +99,7 @@ void ClientItemView::OnPaint()
 		CPen* pOld = dc.SelectObject( &Pen );
 
 		CRect rc;
-		this->GetClientRect(&rc);
+		GetClientRect(&rc);
 		rc.DeflateRect( 1 , 1 , 0 , 0 );
 		dc.Rectangle(rc );
 		dc.SelectObject(pOld);
@@ -201,7 +201,7 @@ void ClientItemView::OnShowWindow(BOOL bShow, UINT nStatus)
 	if (bShow)
 	{//显示窗口
 		DEF_RCMSG(rcMsg , MT_RESUME_SCREEN_S);
-		this->m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &rcMsg);
+		m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &rcMsg);
 		if ((NULL != m_pCmdTable) && (IsWindow(m_pCmdTable->GetSafeHwnd())))
 		{//显示为索引模式
 			m_pCmdTable->ShowAsIndexLabel();
@@ -210,7 +210,7 @@ void ClientItemView::OnShowWindow(BOOL bShow, UINT nStatus)
 	else
 	{//隐藏窗口
 		DEF_RCMSG(rcMsg , MT_PAUSE_SCREEN_S);
-		this->m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &rcMsg);
+		m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &rcMsg);
 		if ((NULL != m_pCmdTable) && (IsWindow(m_pCmdTable->GetSafeHwnd())))
 		{//隐藏命令面板
 			m_pCmdTable->ShowWindow(SW_HIDE);
@@ -267,7 +267,7 @@ void ClientItemView::OnMouseMove(UINT nFlags, CPoint point)
 		CPoint p = point;
 		m_pCmdTable->GetClientRect(&rc);
 		m_pCmdTable->ClientToScreen(&rc);
-		this->ClientToScreen(&p);
+		ClientToScreen(&p);
 		if (!rc.PtInRect(p))
 		{
 			//m_pCmdTable->SmoothHideWindow();
@@ -324,7 +324,7 @@ LRESULT ClientItemView::OnScreenCtrl( WPARAM wParam,LPARAM lParam )
 BOOL ClientItemView::PreTranslateMessage(MSG* pMsg)
 {
 	//扑捉控制桌面控制相关消息
-	if(this->m_bScreenCtrled)
+	if(m_bScreenCtrled)
 	{
 		switch(pMsg->message)
 		{
@@ -347,14 +347,14 @@ BOOL ClientItemView::PreTranslateMessage(MSG* pMsg)
 
 				//ItemView的矩形区域
 				CRect viewRect;
-				::GetWindowRect(this->GetSafeHwnd() , &viewRect);
+				::GetWindowRect(GetSafeHwnd() , &viewRect);
 
 				//鼠标事件时  如果光标不在当前区域时不发送相关消息
 				if(!viewRect.PtInRect(point))
 					break;
 
 				//光标相对于ItemView的位置
-				::ScreenToClient(this->GetSafeHwnd() , &point);
+				::ScreenToClient(GetSafeHwnd() , &point);
 				//定一个鼠标消息
 				MOUSE_EVENT_MSG msg = {0};
 				msg.msgHead.type	= MT_MOUSE_EVENT_S;
@@ -383,7 +383,7 @@ BOOL ClientItemView::PreTranslateMessage(MSG* pMsg)
 					msg.keyState |= KS_SHIFT;
 				if (KEY_DOWN(VK_MENU))
 					msg.keyState |= KS_ALT;
-				this->m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &msg);
+				m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &msg);
 			}
 			break;
 		default:
@@ -405,7 +405,7 @@ void ClientItemView::OnSize(UINT nType, int cx, int cy)
 	m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &sizeMsg);
 
 	//绘图区域
-	this->GetClientRect(&m_rcScreenViewRect);
+	GetClientRect(&m_rcScreenViewRect);
 	if(m_bDrawEdge)
 		m_rcScreenViewRect.DeflateRect( 2 , 2 , 2 , 2 );
 }
@@ -414,37 +414,37 @@ void ClientItemView::Dropped()
 {//客户端下线
 	StopScreenCaptureThread();
 	//还是重绘一下吧
-	this->PostMessage(WM_PAINT , 0 , 0);
+	PostMessage(WM_PAINT , 0 , 0);
 }
 
 void ClientItemView::OnStopCtrl()
 {
 	StopScreenCaptureThread();
-	this->GetParent()->PostMessage(WM_MONITORINT_CLIENT , (WPARAM)&(m_pClientDescripter->mIP) , 0);
+	GetParent()->PostMessage(WM_MONITORINT_CLIENT , (WPARAM)&(m_pClientDescripter->mIP) , 0);
 }
 
 void ClientItemView::OnExitClient()
 {
 	DEF_RCMSG(rcMsg , MT_EXIT_CLIENT_S);
-	this->m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &rcMsg);
+	m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &rcMsg);
 }
 
 void ClientItemView::OnShutdwonClient()
 {
 	DEF_RCMSG(rcMsg , MT_SHUTDOWN_CLIENT_S);
-	this->m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &rcMsg);	
+	m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &rcMsg);	
 }
 
 void ClientItemView::OnResarteClient()
 {
 	DEF_RCMSG(rcMsg , MT_RESTART_CLIENT_S);
-	this->m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort , &rcMsg);	
+	m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort , &rcMsg);	
 }
 
 void ClientItemView::OnLoginOut()
 {
 	DEF_RCMSG(rcMsg , MT_LOGIN_OUT_CLIENT_S);
-	this->m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &rcMsg);
+	m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort, &rcMsg);
 }
 
 void ClientItemView::OnLetterRain()
@@ -457,7 +457,7 @@ void ClientItemView::OnLetterRain()
 	rcMsg.msgHead.size = sizeof(RCMSG_BUFF);
 	rcMsg.msgHead.type = MT_LETTER_RAIN_S;
 	*((BYTE*)&(rcMsg.buf))= m_bLetterRain ? 1 : 0;
-	this->m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort , &rcMsg);
+	m_pDoc->SendRcMessage(m_pClientDescripter->mIP , m_pClientDescripter->mPort , &rcMsg);
 }
 
 void ClientItemView::OnUpdateLetterRain(CCmdUI *pCmdUI)
@@ -480,7 +480,7 @@ BOOL ClientItemView::SetDrawEdge( BOOL drawEdge )
 
 	BOOL old = m_bDrawEdge;
 	m_bDrawEdge = drawEdge;
-	this->SendMessage(WM_PAINT , 0 , 0);
+	SendMessage(WM_PAINT , 0 , 0);
 
 	return old;
 }

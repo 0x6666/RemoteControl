@@ -66,10 +66,10 @@ BOOL CCtrlBar::Create(CWnd* pParentWnd,UINT nIDTemplate,UINT nStyle,UINT nID , C
 	// TODO: Add your specialized code here and/or call the base class
 	BOOL bRes = CDialogBar::Create(pParentWnd,nIDTemplate,nStyle,nID );
 	
-	this->m_szFloat = this->m_szHDocked = this->m_szVDocked = size;
-	this->m_szVDocked.cx = 200;//纵向停靠时默认200的宽度
-	this->m_szHDocked.cy = 100;//横向停靠时默认100的高度
-	this->m_dwCtrlStyle |= CTRL_SHOWEDGES;
+	m_szFloat = m_szHDocked = m_szVDocked = size;
+	m_szVDocked.cx = 200;//纵向停靠时默认200的宽度
+	m_szHDocked.cy = 100;//横向停靠时默认100的高度
+	m_dwCtrlStyle |= CTRL_SHOWEDGES;
 	return bRes;
 }
 LRESULT CCtrlBar::OnInitDialog(UINT wParam, LONG lParam)
@@ -77,7 +77,9 @@ LRESULT CCtrlBar::OnInitDialog(UINT wParam, LONG lParam)
 	BOOL bRet = HandleInitDialog(wParam, lParam);
 	
 	if (!UpdateData(FALSE))
+	{
 		TRACE0("Warning: UpdateData failed during dialog init.\n");
+	}
 
 	//初始化空间
 	return bRet;
@@ -91,8 +93,8 @@ CSize CCtrlBar::CalcDynamicLayout(int nLength, DWORD dwMode)
 		{//只处理可停靠的控制条
 
 			CRect rc;  //所停靠的框架的大小
-			/*this->GetDockingFrame()->GetWindowRect(&rc);*/
-			this->GetDockingFrame()->GetClientRect(&rc);
+			/*GetDockingFrame()->GetWindowRect(&rc);*/
+			GetDockingFrame()->GetClientRect(&rc);
 			if(dwMode & LM_HORZ)  //横向的停靠话，返回框架的宽度
 				return CSize(rc.Width() + 3  , m_szHDocked.cy); //我不知道这里为什么要加3个像素，我感觉这里应该是可以不要加的
 			else //纵向停靠,框架的高度
@@ -103,7 +105,7 @@ CSize CCtrlBar::CalcDynamicLayout(int nLength, DWORD dwMode)
 	}
 
 	//最常用的动态大小
-	if (dwMode & LM_MRUWIDTH) return this->m_szFloat;
+	if (dwMode & LM_MRUWIDTH) return m_szFloat;
 	//重置LM_MRUWIDTH到当前的浮动大小
 	if (dwMode & LM_COMMIT) return m_szFloat;
 
@@ -126,7 +128,7 @@ void CCtrlBar::OnSize(UINT nType, int cx, int cy)
 		{
 			//这里需要重绘
 			pWnd->MoveWindow(0, 0, cx, cy , TRUE);
-			this->m_pDockSite->DelayRecalcLayout();
+			m_pDockSite->DelayRecalcLayout();
 		}else
 		{//要避免频繁绘制窗口，导致上窗口闪烁的结果  FALSE很重要
 			pWnd->MoveWindow(0, 0, cx, cy , FALSE);
@@ -380,8 +382,8 @@ CSize CCtrlBar::CalcFixedLayout( BOOL bStretch, BOOL bHorz )
 	AFX_SIZEPARENTPARAMS layout = {0};
 	layout.hDWP = pDockBar->m_bLayoutQuery ? NULL : 
 		::BeginDeferWindowPos( 1 );
-	if(this->m_nStateFlags & (delayHide|delayShow))
-		this->RecalcDelayShow(&layout);
+	if(m_nStateFlags & (delayHide|delayShow))
+		RecalcDelayShow(&layout);
 
 	if (layout.hDWP != NULL)
 		::EndDeferWindowPos(layout.hDWP);
@@ -508,7 +510,7 @@ void CCtrlBar::OnTrackUpdateSize(CPoint& point)
 	}
 
 	//调整实际的大小
-	(bHorz ? this->m_szHDocked.cy : this->m_szVDocked.cx) = 
+	(bHorz ? m_szHDocked.cy : m_szVDocked.cx) = 
 		bHorz ? sizeNew.cy : sizeNew.cx;
 	
 

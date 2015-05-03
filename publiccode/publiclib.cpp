@@ -61,7 +61,7 @@ BOOL MsgCenter::InitMsgCenter( Dispatcher* dispatcher ,UINT port ,BOOL reuseaddr
 	//消息派送器
 	if (NULL == dispatcher)
 		return FALSE;
-	this->m_pDispatch = dispatcher;
+	m_pDispatch = dispatcher;
 	
 	//主套接字
 	m_pMainSocket = new MainSocket(this);
@@ -290,13 +290,13 @@ MainSocket* MsgCenter::GetMainSocket()
 }
 BOOL MsgCenter::SetBroadcast( BOOL roadcase)
 {
-	return this->m_pMainSocket->SetSockOpt( SO_BROADCAST, &roadcase, sizeof(BOOL), SOL_SOCKET);
+	return m_pMainSocket->SetSockOpt( SO_BROADCAST, &roadcase, sizeof(BOOL), SOL_SOCKET);
 }
 
 BOOL MsgCenter::IsBroadcast()
 {
 	BOOL roadcase = FALSE;
-	if(TRUE == this->m_pMainSocket->SetSockOpt( SO_BROADCAST, &roadcase, sizeof(BOOL), SOL_SOCKET))
+	if(TRUE == m_pMainSocket->SetSockOpt( SO_BROADCAST, &roadcase, sizeof(BOOL), SOL_SOCKET))
 	{
 		return roadcase;
 	}

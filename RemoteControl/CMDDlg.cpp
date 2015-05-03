@@ -28,7 +28,7 @@ CCMDDlg::CCMDDlg(const CString& ip , USHORT port ,const CString& name
 	, m_pDoc(pDoc)
 	, m_uPort(port)
 {
-	this->m_cmdCfgValue = *cmdv;
+	m_cmdCfgValue = *cmdv;
 }
 
 CCMDDlg::~CCMDDlg()
@@ -65,12 +65,12 @@ BOOL CCMDDlg::OnInitDialog()
 	ModifyStyle( NULL , WS_THICKFRAME);
 
 	//设置对话框标题
-	this->SetWindowText(m_strName + _T("(") + m_strIP + _T(")"));
+	SetWindowText(m_strName + _T("(") + m_strIP + _T(")"));
 
-	CEdit* pEdit = dynamic_cast<CEdit*>(this->GetDlgItem(IDC_ET_CMD_VIEW));
+	CEdit* pEdit = dynamic_cast<CEdit*>(GetDlgItem(IDC_ET_CMD_VIEW));
 	ASSERT(pEdit != NULL);
 
-	this->m_pFont = new CFont();
+	m_pFont = new CFont();
 	//字体
 	LOGFONT lf = {0};
 	CString name;
@@ -78,11 +78,11 @@ BOOL CCMDDlg::OnInitDialog()
 	lf.lfHeight = m_cmdCfgValue.nCMD_FontSize;
 	name += m_cmdCfgValue.czCMD_FontFaceName;
 	wcscpy(lf.lfFaceName , name);
-	this->m_pFont->CreateFontIndirect(&lf);
+	m_pFont->CreateFontIndirect(&lf);
 	pEdit->SetFont( m_pFont );
 
-	this->m_pBkBrush = new CBrush();
-	this->m_pBkBrush->CreateSolidBrush(m_cmdCfgValue.nCMD_BackgroundColor);
+	m_pBkBrush = new CBrush();
+	m_pBkBrush->CreateSolidBrush(m_cmdCfgValue.nCMD_BackgroundColor);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
@@ -96,8 +96,8 @@ void CCMDDlg::OnSize(UINT nType, int cx, int cy)
 	if (IsWindow(m_wndCMDView.GetSafeHwnd()))
 	{
 		CRect cRc;
-		this->GetClientRect(&cRc);
-		this->m_wndCMDView.MoveWindow( 0 , 0 ,cRc.Width() , cRc.Height() , FALSE);
+		GetClientRect(&cRc);
+		m_wndCMDView.MoveWindow( 0 , 0 ,cRc.Width() , cRc.Height() , FALSE);
 	}
 }
 
@@ -175,34 +175,34 @@ BOOL CCMDDlg::PreTranslateMessage(MSG* pMsg)
 	{//键盘消息
 		if(pMsg->wParam == VK_RETURN)
 		{//按下的是回车键
-			if(FALSE == this->ExecuteCMD())
+			if(FALSE == ExecuteCMD())
 			{//执行命令失败 或无需回显
 				return TRUE;
 			}
 
 			//是清屏的话
-			if(!this->m_strCMD.CompareNoCase(_T("cls")))
+			if(!m_strCMD.CompareNoCase(_T("cls")))
 			{
 				//等待线程处理完毕
 				Sleep(50);
 
 				CString strInfo;
-				this->m_wndCMDView.GetWindowText(strInfo);
+				m_wndCMDView.GetWindowText(strInfo);
 				int nIndex = strInfo.Find(_T(":\\"));
 				strInfo = _T("\r\n") + strInfo.Mid(nIndex - 1);
-				this->m_wndCMDView.SetWindowText(strInfo);
+				m_wndCMDView.SetWindowText(strInfo);
 				//光标放到最后
-				this->m_wndCMDView.SetSel(strInfo.GetLength() , -1 , 0 );
-				this->m_nLastCount = strInfo.GetLength();
+				m_wndCMDView.SetSel(strInfo.GetLength() , -1 , 0 );
+				m_nLastCount = strInfo.GetLength();
 			}
 			return TRUE;
 		}
 
 		//处理 退格 和delete键
-		int nCount = this->m_nLastCount;
+		int nCount = m_nLastCount;
 		int n = 0;
 		int m = 0;
-		this->m_wndCMDView.GetSel( n , m );
+		m_wndCMDView.GetSel( n , m );
 
 		if(pMsg->wParam == VK_BACK)
 		{//退格
@@ -229,7 +229,7 @@ BOOL CCMDDlg::PreTranslateMessage(MSG* pMsg)
 // 			CString cmd = GetDocument()->GetCmdByUpKey();
 // 
 // 			////////将数据上传
-// 			this->GetEditCtrl().SetSel(GetDocument()->m_strInfo.GetLength(),-1,0);
+// 			GetEditCtrl().SetSel(GetDocument()->m_strInfo.GetLength(),-1,0);
 // 			GetEditCtrl().ReplaceSel(cmd);
 // 			//GetEditCtrl().GetWindowTextW(GetDocument()->m_strInfo);
 // 			//GetDocument()->m_nLastCount=GetDocument()->m_strInfo.GetLength();
@@ -241,7 +241,7 @@ BOOL CCMDDlg::PreTranslateMessage(MSG* pMsg)
 // 			CString cmd = GetDocument()->GetCmdByDownKey();
 // 
 // 			////////将数据上传
-// 			this->GetEditCtrl().SetSel(GetDocument()->m_strInfo.GetLength(),-1,0);
+// 			GetEditCtrl().SetSel(GetDocument()->m_strInfo.GetLength(),-1,0);
 // 			GetEditCtrl().ReplaceSel(cmd);
 // 			//GetEditCtrl().GetWindowTextW(GetDocument()->m_strInfo);
 // 			//GetDocument()->m_nLastCount=GetDocument()->m_strInfo.GetLength();
@@ -254,7 +254,7 @@ BOOL CCMDDlg::PreTranslateMessage(MSG* pMsg)
 		int nCount = m_nLastCount;
 		int n = 0;
 		int m = 0;
-		this->m_wndCMDView.GetSel( n , m );
+		m_wndCMDView.GetSel( n , m );
 
 		if(nCount > n)
 			return TRUE;
@@ -471,7 +471,7 @@ void CCMDDlg::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 
 void CCMDDlg::ChangeCfgValue( PCMD_CFG_V cmdValue )
 {
-	this->m_cmdCfgValue = *cmdValue;
+	m_cmdCfgValue = *cmdValue;
 	if (NULL != m_pFont)
 	{
 		//字体
@@ -482,30 +482,30 @@ void CCMDDlg::ChangeCfgValue( PCMD_CFG_V cmdValue )
 		CString name;
 		name += cmdValue->czCMD_FontFaceName;
 		wcscpy(lf.lfFaceName , name);
-		this->m_pFont->DeleteObject();
-		this->m_pFont->CreateFontIndirect(&lf);
-		m_wndCMDView.SetFont(this->m_pFont);
+		m_pFont->DeleteObject();
+		m_pFont->CreateFontIndirect(&lf);
+		m_wndCMDView.SetFont(m_pFont);
 	}
 
 	//背景颜色
 	if (NULL != m_pBkBrush)
 	{
-		this->m_pBkBrush->DeleteObject();
-		this->m_pBkBrush->CreateSolidBrush(m_cmdCfgValue.nCMD_BackgroundColor);
+		m_pBkBrush->DeleteObject();
+		m_pBkBrush->CreateSolidBrush(m_cmdCfgValue.nCMD_BackgroundColor);
 	}
 
-	this->Invalidate();
+	Invalidate();
 }
 
 BOOL CCMDDlg::PreExecuteCMD()
 {
 	CString strInfo;
-	this->m_wndCMDView.GetWindowText( strInfo );
-	this->m_strCMD = strInfo.Mid( m_nLastCount );
-	this->m_strCMD.Trim();
+	m_wndCMDView.GetWindowText( strInfo );
+	m_strCMD = strInfo.Mid( m_nLastCount );
+	m_strCMD.Trim();
 
 	CString temp;
-	if((strInfo.Mid(m_nLastCount-1 , 1) == _T(">")) && !this->m_strCMD.CompareNoCase(_T("exit")))
+	if((strInfo.Mid(m_nLastCount-1 , 1) == _T(">")) && !m_strCMD.CompareNoCase(_T("exit")))
 	{//退出
 		//TODO 做exit的预处理
 		temp.LoadString(IDS_NOT_EXE_CMD);
@@ -528,7 +528,7 @@ BOOL CCMDDlg::PreExecuteCMD()
 		CString strDir;
 		int nIndex = strInfo.ReverseFind(_T('\n'));
 		strDir = strInfo.Mid(nIndex-1 , m_wndCMDView.GetWindowTextLength() - nIndex - m_strCMD.GetLength() + 1);
-		this->m_wndCMDView.SetWindowText(strDir);
+		m_wndCMDView.SetWindowText(strDir);
 		m_wndCMDView.SetSel(m_wndCMDView.GetWindowTextLength(), -1 , 0 );
 		m_nLastCount = m_wndCMDView.GetWindowTextLength();
 		return FALSE;
@@ -538,7 +538,7 @@ BOOL CCMDDlg::PreExecuteCMD()
 	temp.Trim();
 	if(!temp.CompareNoCase(_T("title")))
 	{//修改标题
-		this->SetWindowText(m_strCMD.Mid(5));
+		SetWindowText(m_strCMD.Mid(5));
 		return FALSE;
 	}
 

@@ -77,7 +77,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	//初始化托盘图标变量
 	m_notifyIcon.cbSize = sizeof(NOTIFYICONDATA);
-	m_notifyIcon.hWnd = this->m_hWnd;   
+	m_notifyIcon.hWnd = m_hWnd;   
 	m_notifyIcon.uID = ICON_INDEX_S;   
 	m_notifyIcon.uFlags = NIF_ICON|NIF_MESSAGE|NIF_TIP;   
 	m_notifyIcon.uCallbackMessage = WM_NOTIFYION_MSG_S;//自定义的消息名称   
@@ -165,12 +165,12 @@ BOOL CMainFrame::CreateClientPane()
 void CMainFrame::InitClientListCtrl()
 {
 	//初始化列表控件
-	this->m_pClientList->SetExtendedStyle(LVS_EX_FULLROWSELECT);
-	this->m_pClientList->InsertColumn(CLIENT_LIST_ID , _T("ID") , 0 , 30);
-	this->m_pClientList->InsertColumn(CLIENT_LIST_STATU , _T("状态") , 0 , 50);
-	this->m_pClientList->InsertColumn(CLIENT_LIST_PUSH , _T("推送") , 0 , 40);
-	this->m_pClientList->InsertColumn(CLIENT_LIST_NAME , _T("计算机名") , 0 , 80);
-	this->m_pClientList->InsertColumn(CLIENT_LIST_IP , _T("IP") , 0 , 100);
+	m_pClientList->SetExtendedStyle(LVS_EX_FULLROWSELECT);
+	m_pClientList->InsertColumn(CLIENT_LIST_ID , _T("ID") , 0 , 30);
+	m_pClientList->InsertColumn(CLIENT_LIST_STATU , _T("状态") , 0 , 50);
+	m_pClientList->InsertColumn(CLIENT_LIST_PUSH , _T("推送") , 0 , 40);
+	m_pClientList->InsertColumn(CLIENT_LIST_NAME , _T("计算机名") , 0 , 80);
+	m_pClientList->InsertColumn(CLIENT_LIST_IP , _T("IP") , 0 , 100);
 }
 
 
@@ -246,11 +246,11 @@ LRESULT CMainFrame::OnNotifyIconMsg( WPARAM wParam , LPARAM lParam )
 			m.LoadMenu(IDR_ICON_MENU);
 			p = m.GetSubMenu(0);
 			::GetCursorPos(&point);
-			::TrackPopupMenu(p->m_hMenu , TPM_LEFTALIGN|TPM_BOTTOMALIGN , point.x , point.y , 0 , this->GetSafeHwnd() , NULL);
+			::TrackPopupMenu(p->m_hMenu , TPM_LEFTALIGN|TPM_BOTTOMALIGN , point.x , point.y , 0 , GetSafeHwnd() , NULL);
 		}
 		break;
 	case WM_LBUTTONDBLCLK://双击左键的处理   
-		this->ShowWindow(this->IsWindowVisible()?SW_HIDE:SW_SHOW);
+		ShowWindow(IsWindowVisible()?SW_HIDE:SW_SHOW);
 		break;   
 	}   
 	return 0;
@@ -292,16 +292,16 @@ LRESULT CMainFrame::OnClientCount( WPARAM wParam , LPARAM lParam )
 	int nIndex = 0;
 
 	//客户端数量
-	nIndex = this->m_wndStatusBar.CommandToIndex(ID_CLIENT_CNT);
+	nIndex = m_wndStatusBar.CommandToIndex(ID_CLIENT_CNT);
 	strTemp.LoadString(ID_CLIENT_CNT);
 	strTemp.AppendFormat(_T("%d") , wParam);
-	this->m_wndStatusBar.SetPaneText(nIndex , strTemp);
+	m_wndStatusBar.SetPaneText(nIndex , strTemp);
 
 	//在线数量
-	nIndex = this->m_wndStatusBar.CommandToIndex(ID_ONLINT_CLIENT_CNT);
+	nIndex = m_wndStatusBar.CommandToIndex(ID_ONLINT_CLIENT_CNT);
 	strTemp.LoadString(ID_ONLINT_CLIENT_CNT);
 	strTemp.AppendFormat(_T("%d") , lParam);
-	this->m_wndStatusBar.SetPaneText(nIndex , strTemp);
+	m_wndStatusBar.SetPaneText(nIndex , strTemp);
 
 	return 1;
 }
@@ -313,10 +313,10 @@ LRESULT CMainFrame::OnPushedCount(WPARAM wParam , LPARAM lParam)
 	int nIndex = 0;
 
 	//在线数量
-	nIndex = this->m_wndStatusBar.CommandToIndex(ID_PUSH_CLINT_CNT);
+	nIndex = m_wndStatusBar.CommandToIndex(ID_PUSH_CLINT_CNT);
 	strTemp.LoadString(ID_PUSH_CLINT_CNT);
 	strTemp.AppendFormat(_T("%d") , wParam);
-	this->m_wndStatusBar.SetPaneText(nIndex , strTemp);
+	m_wndStatusBar.SetPaneText(nIndex , strTemp);
 
 	return 1;
 }
@@ -393,8 +393,8 @@ LRESULT CMainFrame::OnMessage( WPARAM wParam , LPARAM lParam )
 		int nIndex = 0;
 
 		//在线数量
-		nIndex = this->m_wndStatusBar.CommandToIndex(ID_SEPARATOR);
-		this->m_wndStatusBar.SetPaneText(nIndex , msg);
+		nIndex = m_wndStatusBar.CommandToIndex(ID_SEPARATOR);
+		m_wndStatusBar.SetPaneText(nIndex , msg);
 	}
 	return 1;
 }

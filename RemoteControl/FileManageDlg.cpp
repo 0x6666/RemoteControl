@@ -78,13 +78,13 @@ BOOL CFileManageDlg::OnInitDialog()
 	//设置对话框可以调整大小
 	ModifyStyle( NULL , WS_THICKFRAME);
 	//设置对话框标题
-	this->SetWindowText(m_strName + _T("(") + m_strIP + _T(")"));
+	SetWindowText(m_strName + _T("(") + m_strIP + _T(")"));
 
 	{//树控件图标列表
 	//这里创建的图标图表列表需要使用ILC_COLOR32而不是ILC_COLOR16
 	//否则显示的图标会有一个黑边框
 	//当然在图标文件中需要存在32色的图标层存在
-	this->m_wndImageList.Create(20 , 20 , ILC_COLOR32|ILC_MASK , 10 , 1);
+	m_wndImageList.Create(20 , 20 , ILC_COLOR32|ILC_MASK , 10 , 1);
 	HICON hIcon = AfxGetApp()->LoadIcon(IDI_COMPUTER);//计算机
 	m_wndImageList.Add(hIcon);
 	hIcon=AfxGetApp()->LoadIcon(IDI_MY_DOC);//我的文档
@@ -97,20 +97,20 @@ BOOL CFileManageDlg::OnInitDialog()
 	m_wndImageList.Add(hIcon);
 	hIcon=AfxGetApp()->LoadIcon(IDI_FILE);//文件
 	m_wndImageList.Add(hIcon);
-	this->m_wndFileTree.SetImageList(&m_wndImageList,TVSIL_NORMAL);
+	m_wndFileTree.SetImageList(&m_wndImageList,TVSIL_NORMAL);
 	}//树控件图标列表
 
 	{//添加几个根节点
 	CString strTmp;
 	//我的文档
 	strTmp.LoadString(IDS_MY_DOC);
-	this->m_hMyDoc = this->m_wndFileTree.InsertItem(strTmp , III_MY_DOC , III_MY_DOC , TVI_ROOT);
+	m_hMyDoc = m_wndFileTree.InsertItem(strTmp , III_MY_DOC , III_MY_DOC , TVI_ROOT);
 	//我的文档
 	strTmp.LoadString(IDS_DESKTOP);
-	this->m_hDesktop = this->m_wndFileTree.InsertItem(strTmp , III_DESKTOP , III_DESKTOP , TVI_ROOT);
+	m_hDesktop = m_wndFileTree.InsertItem(strTmp , III_DESKTOP , III_DESKTOP , TVI_ROOT);
 	//计算机
 	strTmp.LoadString(IDS_COMPUTER);
-	this->m_hComputer = this->m_wndFileTree.InsertItem(strTmp , III_COMPUTER , III_COMPUTER , TVI_ROOT);
+	m_hComputer = m_wndFileTree.InsertItem(strTmp , III_COMPUTER , III_COMPUTER , TVI_ROOT);
 	}//添加几个根节点
 
 	//获取磁盘驱动器信息
@@ -128,8 +128,8 @@ void CFileManageDlg::OnSize(UINT nType, int cx, int cy)
 	if (IsWindow(m_wndFileTree.GetSafeHwnd()))
 	{
 		CRect cRc;
-		this->GetClientRect(&cRc);
-		this->m_wndFileTree.MoveWindow( 0 , 0 ,cRc.Width() , cRc.Height() , TRUE);
+		GetClientRect(&cRc);
+		m_wndFileTree.MoveWindow( 0 , 0 ,cRc.Width() , cRc.Height() , TRUE);
 	}
 }
 
@@ -138,7 +138,7 @@ void CFileManageDlg::OnNMClickFileTree(NMHDR *pNMHDR, LRESULT *pResult)
 	//当前鼠标位置
 	CPoint pt;
 	GetCursorPos(&pt);
-	this->m_wndFileTree.ScreenToClient(&pt);
+	m_wndFileTree.ScreenToClient(&pt);
 	UINT uFlag = 0;
 	HTREEITEM hCurSel = m_wndFileTree.GetSelectedItem();
 	HTREEITEM hItem   = m_wndFileTree.HitTest(pt, &uFlag);
@@ -151,7 +151,7 @@ void CFileManageDlg::OnNMClickFileTree(NMHDR *pNMHDR, LRESULT *pResult)
 		m_wndFileTree.SelectItem(hItem);
 
 	//当前选择的文件/文件路径
-	CString file = this->GetCurSel();
+	CString file = GetCurSel();
 	GetAllFiles(file);
 
 	*pResult = 0;
@@ -164,7 +164,7 @@ CString CFileManageDlg::GetCurSel()
 
 	int nImage,nSelImage;
 	CString filePath = _T("");
-	HTREEITEM hCurSel = this->m_wndFileTree.GetSelectedItem();
+	HTREEITEM hCurSel = m_wndFileTree.GetSelectedItem();
 	
 	m_wndFileTree.GetItemImage(hCurSel , nImage , nSelImage);
 	if(nImage == III_COMPUTER)
@@ -183,7 +183,7 @@ CString CFileManageDlg::GetCurSel()
 		isDir = TRUE;
 	}
 
-	filePath = this->m_wndFileTree.GetItemText(hCurSel).Trim();
+	filePath = m_wndFileTree.GetItemText(hCurSel).Trim();
 	if(filePath.IsEmpty())//不能为空
 	{
 		//AfxMessageBox(_T("请选择一个节点"));
@@ -191,13 +191,13 @@ CString CFileManageDlg::GetCurSel()
 	}	
 	
 	//获取完整的路径
-	hCurSel = this->m_wndFileTree.GetParentItem(hCurSel);
-	while(hCurSel != this->m_hComputer
-		&& hCurSel != this->m_hDesktop
-		&& hCurSel != this->m_hMyDoc)
+	hCurSel = m_wndFileTree.GetParentItem(hCurSel);
+	while(hCurSel != m_hComputer
+		&& hCurSel != m_hDesktop
+		&& hCurSel != m_hMyDoc)
 	{
 		filePath = (m_wndFileTree.GetItemText(hCurSel).Trim() +_T("\\")+ filePath);
-		hCurSel = this->m_wndFileTree.GetParentItem(hCurSel);
+		hCurSel = m_wndFileTree.GetParentItem(hCurSel);
 	}
 
 	if(hCurSel == m_hDesktop)
@@ -241,24 +241,24 @@ void CFileManageDlg::InsertFilePath( const CString& data )
 	for(int i = 0 ;i != last && i >= 0 ; i = strPath.Find(_T('\\'),i) + 1 )
 	{// i 指向这次要截取的第一个字母
 		strInsert = strPath.Mid( i , strPath.Find(_T('\\') , i) - i  );//截取要查找的数据
-		if(this->m_wndFileTree.ItemHasChildren(hParent))
+		if(m_wndFileTree.ItemHasChildren(hParent))
 		{//有子项  就找一下是不是包含了这个字符串
 			HTREEITEM thisParent = hParent;
-			hParent = this->m_wndFileTree.GetChildItem(hParent);//获得第一个子项
-			temp = this->m_wndFileTree.GetItemText(hParent).Trim();
+			hParent = m_wndFileTree.GetChildItem(hParent);//获得第一个子项
+			temp = m_wndFileTree.GetItemText(hParent).Trim();
 			while(temp != strInsert)
 			{
 				//获得下一个兄弟节点
-				hParent = this->m_wndFileTree.GetNextSiblingItem(hParent);
+				hParent = m_wndFileTree.GetNextSiblingItem(hParent);
 				if(hParent)//存在
-					temp = this->m_wndFileTree.GetItemText(hParent).Trim();
+					temp = m_wndFileTree.GetItemText(hParent).Trim();
 				else//不存在
 				{
 					//有序的插入
 					if(thisParent == m_hComputer)
-						hParent = this->m_wndFileTree.InsertItem(strInsert , III_DISK ,  III_DISK , thisParent , TVI_SORT);
+						hParent = m_wndFileTree.InsertItem(strInsert , III_DISK ,  III_DISK , thisParent , TVI_SORT);
 					else
-						hParent = this->m_wndFileTree.InsertItem(strInsert , III_DIR ,  III_DIR , thisParent , TVI_SORT);
+						hParent = m_wndFileTree.InsertItem(strInsert , III_DIR ,  III_DIR , thisParent , TVI_SORT);
 					break;
 				}
 			}
@@ -267,38 +267,38 @@ void CFileManageDlg::InsertFilePath( const CString& data )
 		{//没有子项  就直接插入
 			if (m_hComputer == hParent)
 			{//是一个磁盘驱动器
-				hParent = this->m_wndFileTree.InsertItem(strInsert , III_DISK , III_DISK , hParent,TVI_SORT);
+				hParent = m_wndFileTree.InsertItem(strInsert , III_DISK , III_DISK , hParent,TVI_SORT);
 			}else//是一个目录
-				hParent = this->m_wndFileTree.InsertItem(strInsert , III_DIR , III_DIR , hParent,TVI_SORT);
+				hParent = m_wndFileTree.InsertItem(strInsert , III_DIR , III_DIR , hParent,TVI_SORT);
 		}
 	}
 	//将最后的文件名插入到控件离去
 	strPath = strPath.Mid(last);
 	if(!strPath.IsEmpty())
 	{//是文件就在这里插入
-		if(this->m_wndFileTree.ItemHasChildren(hParent))
+		if(m_wndFileTree.ItemHasChildren(hParent))
 		{//要查的文件夹中有文件 就要判断自己是否存在
 			HTREEITEM thisParent = hParent;
 			//获得第一个子项
-			hParent = this->m_wndFileTree.GetChildItem(hParent);
-			temp = this->m_wndFileTree.GetItemText(hParent).Trim();
+			hParent = m_wndFileTree.GetChildItem(hParent);
+			temp = m_wndFileTree.GetItemText(hParent).Trim();
 			while(temp != strPath)
 			{
 				//获得下一个兄弟节点
-				hParent = this->m_wndFileTree.GetNextSiblingItem(hParent);
+				hParent = m_wndFileTree.GetNextSiblingItem(hParent);
 				if(hParent)
 				{//存在
-					temp = this->m_wndFileTree.GetItemText(hParent).Trim();
+					temp = m_wndFileTree.GetItemText(hParent).Trim();
 					continue;
 				}else//不存在
 				{
-					hParent = this->m_wndFileTree.InsertItem(strPath , III_FILE , III_FILE , thisParent,TVI_SORT);
+					hParent = m_wndFileTree.InsertItem(strPath , III_FILE , III_FILE , thisParent,TVI_SORT);
 					break;
 				}
 			}
 		}else //要插入的文件夹中没有文件
 		{
-			hParent = this->m_wndFileTree.InsertItem(strPath , III_FILE , III_FILE , hParent,TVI_SORT);
+			hParent = m_wndFileTree.InsertItem(strPath , III_FILE , III_FILE , hParent,TVI_SORT);
 		}
 	}
 	return ;
@@ -323,7 +323,7 @@ void CFileManageDlg::OnNMRClickFileTree(NMHDR *pNMHDR, LRESULT *pResult)
 	//当前鼠标位置
 	CPoint pt;
 	GetCursorPos(&pt);
-	this->m_wndFileTree.ScreenToClient(&pt);
+	m_wndFileTree.ScreenToClient(&pt);
 	UINT uFlag = 0;
 	HTREEITEM hCurSel = m_wndFileTree.GetSelectedItem();
 	HTREEITEM hItem   = m_wndFileTree.HitTest(pt, &uFlag);
@@ -449,7 +449,7 @@ void CFileManageDlg::OnUpdateFlush(CCmdUI *pCmdUI)
 void CFileManageDlg::OnDownload()
 {
 	//当前选择的文件/文件路径
-	CString strPath = this->GetCurSel();
+	CString strPath = GetCurSel();
 	if (!strPath.IsEmpty())
 	{
 		m_pDoc->DownloadFile(strPath , m_strIP );
@@ -472,7 +472,7 @@ void CFileManageDlg::OnUpdateDownload(CCmdUI *pCmdUI)
 void CFileManageDlg::OnUpload()
 {
 	//当前选择的文件/文件路径
-	CString strPath = this->GetCurSel();
+	CString strPath = GetCurSel();
 	if (!strPath.IsEmpty())
 	{
 		m_pDoc->UploadFile(strPath , m_strIP );
@@ -495,7 +495,7 @@ void CFileManageDlg::OnUpdateUpload(CCmdUI *pCmdUI)
 void CFileManageDlg::OnDelete()
 {
 	//当前选择的文件/文件路径
-	CString strPath = this->GetCurSel();
+	CString strPath = GetCurSel();
 	char* cmdBuf = NULL;
 	PRCMSG_BUFF pMsg = NULL;
 	int size = 0;
@@ -645,7 +645,7 @@ void CFileManageDlg::FlushItem( HTREEITEM item)
 	}
 
 	//当前选择的文件/文件路径
-	CString file = this->GetCurSel();
+	CString file = GetCurSel();
 	if (file.Left(_tcslen(DIR_COMPUTER)) == DIR_COMPUTER)
 	{//获得驱动器信息
 		DEF_RCMSG(rcMsg , MT_GET_DRIVER_S);

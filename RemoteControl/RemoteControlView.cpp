@@ -171,7 +171,7 @@ LRESULT CRemoteControlView::OnItemViewDBClick( WPARAM wParam , LPARAM lParam )
 				m_pFullViewItem = *it;
 				m_pFullViewItem->SetDrawEdge(FALSE);
 				CRect rc;
-				this->GetClientRect(&rc);
+				GetClientRect(&rc);
 				m_pFullViewItem->MoveWindow(0 , 0 , rc.Width() , rc.Height() , TRUE);
 				m_pFullViewItem->ShowWindow(SW_SHOW);
 				//m_pFullViewItem->SetWindowPos(NULL , 0 , 0 , rc.Width() , rc.Height() , SWP_SHOWWINDOW);
@@ -184,7 +184,7 @@ LRESULT CRemoteControlView::OnItemViewDBClick( WPARAM wParam , LPARAM lParam )
 	//调整滚动范围
 	AdjustScrollSize();
 
-	this->Invalidate(TRUE);
+	Invalidate(TRUE);
 	return 0;
 }
 
@@ -196,7 +196,7 @@ void CRemoteControlView::AdjustItemViewPosition(BOOL keepFull /*= TRUE*/)
 		AdjustScrollSize();
 	
 		CRect rc;
-		this->GetClientRect(&rc);
+		GetClientRect(&rc);
 		m_pFullViewItem->SetWindowPos(NULL , 0 , 0 , rc.Width() , rc.Height() , SWP_SHOWWINDOW);
 	}
 	else
@@ -292,7 +292,7 @@ LRESULT CRemoteControlView::OnStopMonitoringClient( WPARAM wParam , LPARAM lPara
 	if ((0 != m_curRowIndex) && (GetRowCount() - m_curRowIndex) < m_iRowCount)
 	{//有隐藏但是当前显示区域没有填满
 		--m_curRowIndex;
-		this->SetScrollPos(SB_VERT , m_curRowIndex , TRUE);
+		SetScrollPos(SB_VERT , m_curRowIndex , TRUE);
 	}
 
 	//调整各个视图的位置
@@ -318,7 +318,7 @@ LRESULT CRemoteControlView::OnFullScreen( WPARAM wParam , LPARAM lParam )
 				m_pFullViewItem = *it;
 				m_pFullViewItem->SetDrawEdge(FALSE);
 				CRect rc;
-				this->GetClientRect(&rc);
+				GetClientRect(&rc);
 				m_pFullViewItem->MoveWindow(0 , 0 , rc.Width() , rc.Height() , TRUE);
 				m_pFullViewItem->ShowWindow(SW_SHOW);
 				//m_pFullViewItem->SetWindowPos(NULL , 0 , 0 , rc.Width() , rc.Height() , SWP_SHOWWINDOW);
@@ -329,7 +329,7 @@ LRESULT CRemoteControlView::OnFullScreen( WPARAM wParam , LPARAM lParam )
 			}
 		}
 	}
-	this->Invalidate(TRUE);
+	Invalidate(TRUE);
 	return 0;
 }
 
@@ -341,14 +341,14 @@ void CRemoteControlView::OnInitialUpdate()
 	si.cbSize = sizeof(SCROLLINFO); 
 	si.fMask = SIF_PAGE ; 
 	si.nPage = 1;
-	this->SetScrollInfo(SB_VERT , &si , TRUE);
+	SetScrollInfo(SB_VERT , &si , TRUE);
 }
 
 void CRemoteControlView::AdjustScrollSize()
 {
 	if (NULL != m_pFullViewItem)
 	{//全屏时需要隐藏滚动条
-		this->ShowScrollBar(SB_VERT , FALSE);
+		ShowScrollBar(SB_VERT , FALSE);
 	}
 	else
 	{//非全屏
@@ -357,12 +357,12 @@ void CRemoteControlView::AdjustScrollSize()
 			//计算滚动区域的大小
 			int rCnt = GetRowCount();
 			rCnt -= (m_iRowCount - 1);
-			this->SetScrollRange(SB_VERT , 0 , rCnt-1);
-			this->ShowScrollBar(SB_VERT , TRUE);
+			SetScrollRange(SB_VERT , 0 , rCnt-1);
+			ShowScrollBar(SB_VERT , TRUE);
 		}
 		else
 		{//不需要显示滚动条
-			this->ShowScrollBar(SB_VERT , FALSE);
+			ShowScrollBar(SB_VERT , FALSE);
 		}
 	}
 }
@@ -370,7 +370,7 @@ void CRemoteControlView::AdjustScrollSize()
 void CRemoteControlView::GetItenSize( int& w , int& h )
 {
 	CRect rc;
-	this->GetClientRect(&rc);
+	GetClientRect(&rc);
 
 	h = rc.Height() / m_iRowCount;
 	w = rc.Width() / m_iColumnCount;
@@ -393,7 +393,7 @@ void CRemoteControlView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollB
 			{//还可以下滚
 				++m_curRowIndex;
 				AdjustItemViewPosition(TRUE);
-				this->SetScrollPos(SB_VERT , m_curRowIndex , TRUE);
+				SetScrollPos(SB_VERT , m_curRowIndex , TRUE);
 			}
 		}
 		break;
@@ -404,7 +404,7 @@ void CRemoteControlView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollB
 			{//还可以下滚
 				--m_curRowIndex;
 				AdjustItemViewPosition(TRUE);
-				this->SetScrollPos(SB_VERT , m_curRowIndex , TRUE);
+				SetScrollPos(SB_VERT , m_curRowIndex , TRUE);
 			}
 		}
 		break;
@@ -416,7 +416,7 @@ void CRemoteControlView::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollB
 			{//位置有调整
 				m_curRowIndex = nPos;
 				AdjustItemViewPosition(TRUE);
-				this->SetScrollPos(SB_VERT , m_curRowIndex , TRUE);
+				SetScrollPos(SB_VERT , m_curRowIndex , TRUE);
 			}
 		}
 		break;

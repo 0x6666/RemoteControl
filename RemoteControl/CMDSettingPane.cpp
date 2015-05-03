@@ -26,8 +26,8 @@ CCMDSettingPane::CCMDSettingPane(CSettingDlg* setDlg , PCMD_CFG_V initValue)
 	, m_bChanged(FALSE)
 	, m_pParent(setDlg)
 {
-	this->m_bkColor = initValue->nCMD_BackgroundColor;
-	this->m_fontColor = initValue->nCMD_FontColor;
+	m_bkColor = initValue->nCMD_BackgroundColor;
+	m_fontColor = initValue->nCMD_FontColor;
 	m_lFontSize = initValue->nCMD_FontSize;
 	m_bFontCharSet = initValue->nCMD_FontCharset;
 	m_strFontFaceName += initValue->czCMD_FontFaceName;
@@ -78,13 +78,13 @@ BOOL CCMDSettingPane::OnInitDialog()
 	lf.lfHeight =  m_lFontSize;
 	lf.lfCharSet =  m_bFontCharSet;
 	wcscpy(lf.lfFaceName ,  m_strFontFaceName );
-	this->m_pFont = new CFont();
-	this->m_pFont->CreateFontIndirect(&lf);
+	m_pFont = new CFont();
+	m_pFont->CreateFontIndirect(&lf);
 	m_wndPreVew.SetFont( m_pFont );
 
 	//背景颜色
-	this->m_pBkBrush = new CBrush();
-	this->m_pBkBrush->CreateSolidBrush(m_bkColor);
+	m_pBkBrush = new CBrush();
+	m_pBkBrush->CreateSolidBrush(m_bkColor);
 
 	m_wndPreVew.SetWindowText(_T("预览.\r\n\r\nC:\\WINDOWS>"));
 
@@ -137,21 +137,21 @@ void CCMDSettingPane::OnBnClickedFont()
 		bkup.lfCharSet = lf.lfCharSet;
 		wcscpy(bkup.lfFaceName , lf.lfFaceName);
 
-		this->m_pFont->DeleteObject();
-		this->m_pFont->CreateFontIndirect(&bkup);
-		m_wndPreVew.SetFont(this->m_pFont);
+		m_pFont->DeleteObject();
+		m_pFont->CreateFontIndirect(&bkup);
+		m_wndPreVew.SetFont(m_pFont);
 		m_bChanged = TRUE;
 		m_pParent->ValueChanged();
 	}
 
-	if(this->m_fontColor != dlg.GetColor())
+	if(m_fontColor != dlg.GetColor())
 	{//字体颜色改变
-		this->m_fontColor = dlg.GetColor();
+		m_fontColor = dlg.GetColor();
 		m_bChanged = TRUE;
 		m_pParent->ValueChanged();
 	}
 
-	this->Invalidate();
+	Invalidate();
 }
 
 void CCMDSettingPane::OnBnClickedBgRounf()
@@ -159,13 +159,13 @@ void CCMDSettingPane::OnBnClickedBgRounf()
 	CColorDialog dlg(m_bkColor);
 	if(dlg.DoModal() != IDOK)
 		return ;
-	if(this->m_bkColor != dlg.GetColor())
+	if(m_bkColor != dlg.GetColor())
 	{//背景颜色改变了
-		this->m_bkColor = dlg.GetColor();
-		this->m_pBkBrush->DeleteObject();
-		this->m_pBkBrush->CreateSolidBrush(this->m_bkColor);
+		m_bkColor = dlg.GetColor();
+		m_pBkBrush->DeleteObject();
+		m_pBkBrush->CreateSolidBrush(m_bkColor);
 
-		this->Invalidate(FALSE);
+		Invalidate(FALSE);
 
 		m_bChanged = TRUE;
 		m_pParent->ValueChanged();
@@ -183,7 +183,7 @@ CMD_CFG_V CCMDSettingPane::GetValue()
 	char nameBuf[40] = {0};
 	cmdValue.nCMD_BackgroundColor = m_bkColor;
 	LOGFONT lf = {0};
-	this->m_pFont->GetLogFont(&lf);
+	m_pFont->GetLogFont(&lf);
 	cmdValue.nCMD_FontCharset = lf.lfCharSet;
 	cmdValue.nCMD_FontColor = m_fontColor;
 	cmdValue.nCMD_FontSize = lf.lfHeight;
@@ -196,5 +196,5 @@ CMD_CFG_V CCMDSettingPane::GetValue()
 
 void CCMDSettingPane::ValueApplied()
 {
-	this->m_bChanged = FALSE;
+	m_bChanged = FALSE;
 }

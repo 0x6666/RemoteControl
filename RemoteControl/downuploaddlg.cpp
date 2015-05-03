@@ -60,13 +60,13 @@ BOOL CDownUploadDlg::OnInitDialog()
 
 
 	//初始化列表控件
-	this->m_wndDownloadList.SetExtendedStyle(LVS_EX_FULLROWSELECT);
-	this->m_wndDownloadList.InsertColumn(DU_LIST_ID , _T("ID") , 0 , 35);
-	this->m_wndDownloadList.InsertColumn(DU_LIST_OPT , _T("操作") , 0 , 40);
-	this->m_wndDownloadList.InsertColumn(DU_LIST_SIZE , _T("大小") , 0 , 55);
-	this->m_wndDownloadList.InsertColumn(DU_LIST_PROGRESS , _T("进度") , 0 , 60);
-	this->m_wndDownloadList.InsertColumn(DU_LIST_RPATH , _T("远程路径") , 0 , 110);
-	this->m_wndDownloadList.InsertColumn(DU_LIST_CPATH , _T("本地路径") , 0 , 110);
+	m_wndDownloadList.SetExtendedStyle(LVS_EX_FULLROWSELECT);
+	m_wndDownloadList.InsertColumn(DU_LIST_ID , _T("ID") , 0 , 35);
+	m_wndDownloadList.InsertColumn(DU_LIST_OPT , _T("操作") , 0 , 40);
+	m_wndDownloadList.InsertColumn(DU_LIST_SIZE , _T("大小") , 0 , 55);
+	m_wndDownloadList.InsertColumn(DU_LIST_PROGRESS , _T("进度") , 0 , 60);
+	m_wndDownloadList.InsertColumn(DU_LIST_RPATH , _T("远程路径") , 0 , 110);
+	m_wndDownloadList.InsertColumn(DU_LIST_CPATH , _T("本地路径") , 0 , 110);
 
 
 	{//将对话框放到桌面右下角 
@@ -74,9 +74,9 @@ BOOL CDownUploadDlg::OnInitDialog()
 	SystemParametersInfo(SPI_GETWORKAREA , 0 , (PVOID)&rt , 0 ); 
 	
 	CRect wRect;
-	this->GetWindowRect(&wRect);
+	GetWindowRect(&wRect);
 
-	this->SetWindowPos(NULL , rt.Width() - wRect.Width() , rt.Height() - wRect.Height() , 0 , 0 , SWP_NOSIZE);
+	SetWindowPos(NULL , rt.Width() - wRect.Width() , rt.Height() - wRect.Height() , 0 , 0 , SWP_NOSIZE);
 	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -115,8 +115,8 @@ void CDownUploadDlg::OnSize(UINT nType, int cx, int cy)
 	if (IsWindow(m_wndDownloadList.GetSafeHwnd()))
 	{
 		CRect cRc;
-		this->GetClientRect(&cRc);
-		this->m_wndDownloadList.MoveWindow( 0 , 0 ,cRc.Width() , cRc.Height() , TRUE);
+		GetClientRect(&cRc);
+		m_wndDownloadList.MoveWindow( 0 , 0 ,cRc.Width() , cRc.Height() , TRUE);
 	}
 }
 

@@ -101,7 +101,7 @@ BOOL MainSocket::CreateWitheSetReuseaddr(UINT nSocketPort, int nSocketType, BOOL
 		int opt = 1;
 // 		if (reuseaddr)
 // 		{//需要设置SO_REUSEADDR标记
-// 			BOOL res = this->SetSockOpt(SO_REUSEADDR , &opt , sizeof(opt) , SOL_SOCKET);
+// 			BOOL res = SetSockOpt(SO_REUSEADDR , &opt , sizeof(opt) , SOL_SOCKET);
 // 			if (res == FALSE)
 // 			{
 // 				opt = GetLastError();

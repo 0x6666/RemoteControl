@@ -62,34 +62,34 @@ BOOL CPushSettingPane::OnInitDialog()
 
 	{//抓屏质量相关控件初始化
 	//抓屏的质量显示
-	CSliderCtrl* pQualitySlide = ((CSliderCtrl*)(this->GetDlgItem(IDC_SCREEN_QUALITY)));
+	CSliderCtrl* pQualitySlide = ((CSliderCtrl*)(GetDlgItem(IDC_SCREEN_QUALITY)));
 	//设置质量的范围
 	pQualitySlide->SetRange(0 , 100 , FALSE);
 	CString strTemp;
 	strTemp.Format(_T("%d%%") , m_iScreenQuality);
 	//设置一下要显示的数值
-	this->GetDlgItem(IDC_ST_QUALITY_NUM)->SetWindowText(strTemp);
+	GetDlgItem(IDC_ST_QUALITY_NUM)->SetWindowText(strTemp);
 	//设置每一页的调整大小
 	pQualitySlide->SetPageSize(10);
 	}
 
 	{//流畅度相关控件初始化
-	CSpinButtonCtrl* pFluencySpin = ((CSpinButtonCtrl*)(this->GetDlgItem(IDC_FLUENCY_SPBIN)));
-	CEdit* pFluencyEdit = ((CEdit*)(this->GetDlgItem(IDC_SCREEN_FLUENCY)));
+	CSpinButtonCtrl* pFluencySpin = ((CSpinButtonCtrl*)(GetDlgItem(IDC_FLUENCY_SPBIN)));
+	CEdit* pFluencyEdit = ((CEdit*)(GetDlgItem(IDC_SCREEN_FLUENCY)));
 
 	pFluencySpin->SetBuddy(pFluencyEdit);
 	pFluencySpin->SetBase(0);
-	pFluencySpin->SetPos(this->m_lScreenFrequency);
+	pFluencySpin->SetPos(m_lScreenFrequency);
 	pFluencySpin->SetRange(FrequencyToIndex(FT_MIN_LEVEL), FrequencyToIndex(FT_MAX_LEVEL));
 
 	//流畅度的 具体描述显示
 	CString strTemp;
 	strTemp  += FrequencyToText(IndexToFrequency((FrequencyType)m_lScreenFrequency));
-	this->GetDlgItem(IDC_FLUENCY_TEXT)->SetWindowText(strTemp);
+	GetDlgItem(IDC_FLUENCY_TEXT)->SetWindowText(strTemp);
 	}
 
 	{//抓屏尺寸
-	CStatic* pMaxSize = ((CStatic*)(this->GetDlgItem(IDC_MAX_SIZE)));
+	CStatic* pMaxSize = ((CStatic*)(GetDlgItem(IDC_MAX_SIZE)));
 	CString strTemp;
 	strTemp.LoadString(IDS_SCREEN_SIZE);
 	strTemp.AppendFormat(_T("%d×%d") , SCREEN_SIZE_W , SCREEN_SIZE_H);
@@ -104,11 +104,11 @@ void CPushSettingPane::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 {	
 	if (pScrollBar->GetDlgCtrlID() == IDC_SCREEN_QUALITY)
 	{//调整抓屏的质量
-		int pos = ((CSliderCtrl*)(this->GetDlgItem(IDC_SCREEN_QUALITY)))->GetPos();
+		int pos = ((CSliderCtrl*)(GetDlgItem(IDC_SCREEN_QUALITY)))->GetPos();
 		CString strTemp;
 		strTemp.Format(_T("%d%%") , pos);
 		//设置一下要显示的数值
-		this->GetDlgItem(IDC_ST_QUALITY_NUM)->SetWindowText(strTemp);
+		GetDlgItem(IDC_ST_QUALITY_NUM)->SetWindowText(strTemp);
 
 		m_bChanged = TRUE;
 		m_pSetDlg->ValueChanged();
@@ -122,13 +122,13 @@ void CPushSettingPane::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	//调整抓屏的流畅度
 	if (pScrollBar->GetDlgCtrlID() == IDC_FLUENCY_SPBIN)
 	{
-		CSpinButtonCtrl* pFluencySpin = ((CSpinButtonCtrl*)(this->GetDlgItem(IDC_FLUENCY_SPBIN)));
+		CSpinButtonCtrl* pFluencySpin = ((CSpinButtonCtrl*)(GetDlgItem(IDC_FLUENCY_SPBIN)));
 		CString strTemp;
 		strTemp.Format( _T("%d") , (int)nPos);
 		pFluencySpin->GetBuddy()->SetWindowText(strTemp);
 		strTemp = _T("");
 		strTemp  += FrequencyToText(IndexToFrequency((FrequencyType)nPos));
-		this->GetDlgItem(IDC_FLUENCY_TEXT)->SetWindowText(strTemp);
+		GetDlgItem(IDC_FLUENCY_TEXT)->SetWindowText(strTemp);
 
 		m_bChanged = TRUE;
 		m_pSetDlg->ValueChanged();
@@ -212,12 +212,12 @@ void CPushSettingPane::OnEnChangeScreenFrequency()
 	}
 
 	//同步到spin控件上
-	((CSpinButtonCtrl*)(this->GetDlgItem(IDC_FLUENCY_SPBIN)))->SetPos(this->m_lScreenFrequency);
+	((CSpinButtonCtrl*)(GetDlgItem(IDC_FLUENCY_SPBIN)))->SetPos(m_lScreenFrequency);
 
 	//设置一下要显示的频率
  	CString strTemp;
  	strTemp  += FrequencyToText(IndexToFrequency((FrequencyType)m_lScreenFrequency));
- 	this->GetDlgItem(IDC_FLUENCY_TEXT)->SetWindowText(strTemp);
+ 	GetDlgItem(IDC_FLUENCY_TEXT)->SetWindowText(strTemp);
 
 	UpdateData(FALSE);
 
@@ -270,5 +270,5 @@ PUSH_CFG_V CPushSettingPane::GetValue()
 
 void CPushSettingPane::ValueApplied()
 {
-	this->m_bChanged = FALSE;
+	m_bChanged = FALSE;
 }

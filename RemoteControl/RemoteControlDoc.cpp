@@ -97,7 +97,7 @@ BOOL CRemoteControlDoc::OnNewDocument()
 		//拼接配置文件路径
 		strcat(modulePath , CONFIG_FILE_NAME);
 		pathLen = strlen(modulePath);
-		this->m_czConfigfilePath = new char[pathLen + 1];
+		m_czConfigfilePath = new char[pathLen + 1];
 		strcpy(m_czConfigfilePath , modulePath);
 		m_czConfigfilePath[pathLen] = 0;
 	}
@@ -131,7 +131,7 @@ BOOL CRemoteControlDoc::OnNewDocument()
 	}//创建下载对话框
 
 	//开始检测客户端
-	this->StartChekClientThread();
+	StartChekClientThread();
 
 	return TRUE;
 }
@@ -173,7 +173,7 @@ void CRemoteControlDoc::FoundAClient(const CString& name ,const CString& ip )
 		{//被控端已经存在
 			if ((*it)->mIsOnline == FALSE)
 			{//被控端不在线
-				this->m_pMsgCenter->SendMsg(ip , (*it)->mPort , &rcMsg);
+				m_pMsgCenter->SendMsg(ip , (*it)->mPort , &rcMsg);
 				(*it)->mIsOnline = FALSE;
 				(*it)->mPreCheckOnlineState = FALSE;
 			}
@@ -196,7 +196,7 @@ void CRemoteControlDoc::FoundAClient(const CString& name ,const CString& ip )
 		m_lstClient.push_back(client);
 
 		//如果这个客户端是新添加的话，则还是需要发送一个消息，便于客户端获取服务器的地址
-		this->m_pMsgCenter->SendMsg(ip , client->mPort , &rcMsg);
+		m_pMsgCenter->SendMsg(ip , client->mPort , &rcMsg);
 	}
 	//刷新客户端列表控件中显示的数据
 	FlushClientCtrl();
@@ -404,7 +404,7 @@ void CRemoteControlDoc::OnRcHeartbeat( const CString& ip ,USHORT port,   const v
 		{//客户端已经存在
 			if ((*it)->mIsOnline == FALSE)
 			{//如果之前客户端是掉线了的，则现在需要发送一个消息，便于客户端获取服务器的地址
-				this->m_pMsgCenter->SendMsg(ip , (*it)->mPort , &rcMsg);
+				m_pMsgCenter->SendMsg(ip , (*it)->mPort , &rcMsg);
 			}
 			(*it)->mIsOnline = TRUE;
 			(*it)->mPreCheckOnlineState = TRUE;
@@ -485,29 +485,29 @@ void CRemoteControlDoc::FlushClientCtrl()
 
 	for (ClientList::iterator it = m_lstClient.begin() ; it != m_lstClient.end() ; ++it)
 	{
-		int cnt = this->m_pClientList->GetItemCount();
+		int cnt = m_pClientList->GetItemCount();
 		int i = 0;
 		for ( ; i < cnt ; ++i ) 
 		{
-			if ( this->m_pClientList->GetItemText( i , CLIENT_LIST_IP) == (*it)->mIP)
+			if ( m_pClientList->GetItemText( i , CLIENT_LIST_IP) == (*it)->mIP)
 			{
 				//跟新在线状态
 				if ((*it)->mIsOnline)  //在线
 				{
-					this->m_pClientList->SetItemText( i , CLIENT_LIST_STATU , strOnline);
+					m_pClientList->SetItemText( i , CLIENT_LIST_STATU , strOnline);
 					++nOnlineCnt;
 					
 					if ((*it)->mIsPushed)
 					{//推送了
 						++nPushCnt;
-						this->m_pClientList->SetItemText( i , CLIENT_LIST_PUSH , strPushed);
+						m_pClientList->SetItemText( i , CLIENT_LIST_PUSH , strPushed);
 					}else
-						this->m_pClientList->SetItemText( i , CLIENT_LIST_PUSH , strUnPushed);
+						m_pClientList->SetItemText( i , CLIENT_LIST_PUSH , strUnPushed);
 				}
 				else//不在线
 				{
-					this->m_pClientList->SetItemText( i , CLIENT_LIST_STATU , strCloseed);
-					this->m_pClientList->SetItemText( i , CLIENT_LIST_PUSH , strUnPushed);
+					m_pClientList->SetItemText( i , CLIENT_LIST_STATU , strCloseed);
+					m_pClientList->SetItemText( i , CLIENT_LIST_PUSH , strUnPushed);
 				}
 				break;
 			}
@@ -517,30 +517,30 @@ void CRemoteControlDoc::FlushClientCtrl()
 		{//控件中不存在则添加
 			CString temp;
 			temp.Format(_T("%d") , (*it)->mIndex);
-			this->m_pClientList->InsertItem( i , temp );
-			this->m_pClientList->SetItemText( i , CLIENT_LIST_IP , (*it)->mIP);
-			this->m_pClientList->SetItemText( i , CLIENT_LIST_NAME , (*it)->mName);
+			m_pClientList->InsertItem( i , temp );
+			m_pClientList->SetItemText( i , CLIENT_LIST_IP , (*it)->mIP);
+			m_pClientList->SetItemText( i , CLIENT_LIST_NAME , (*it)->mName);
 
 			//设置在线状态
 			if ((*it)->mIsOnline)
 			{//在线
 				++nOnlineCnt;
-				this->m_pClientList->SetItemText( i , CLIENT_LIST_STATU , strOnline );
+				m_pClientList->SetItemText( i , CLIENT_LIST_STATU , strOnline );
 
 				if ((*it)->mIsPushed)
 				{//推送了
 					++nPushCnt;
-					this->m_pClientList->SetItemText( i , CLIENT_LIST_PUSH , strPushed );
+					m_pClientList->SetItemText( i , CLIENT_LIST_PUSH , strPushed );
 				}else
-					this->m_pClientList->SetItemText( i , CLIENT_LIST_STATU , strUnPushed );
+					m_pClientList->SetItemText( i , CLIENT_LIST_STATU , strUnPushed );
 			}else
 			{//不在线
-				this->m_pClientList->SetItemText( i , CLIENT_LIST_STATU , strCloseed );
-				this->m_pClientList->SetItemText( i , CLIENT_LIST_PUSH , strUnPushed );
+				m_pClientList->SetItemText( i , CLIENT_LIST_STATU , strCloseed );
+				m_pClientList->SetItemText( i , CLIENT_LIST_PUSH , strUnPushed );
 			}
 
 			//设置IP地址
-			this->m_pClientList->SetItemText( i , CLIENT_LIST_IP , (*it)->mIP );
+			m_pClientList->SetItemText( i , CLIENT_LIST_IP , (*it)->mIP );
 		}
 	}
 	CWnd* pMainFrame = AfxGetMainWnd();
@@ -697,7 +697,7 @@ void CRemoteControlDoc::LoadConfigFileData()
 
 	{//推送相关的配置数据加载
 	//推送桌面时的宽度
-	rcf = ReadConfValue(CK_PUSH_SD_W , vBuf , 100 , this->m_czConfigfilePath);
+	rcf = ReadConfValue(CK_PUSH_SD_W , vBuf , 100 , m_czConfigfilePath);
 	if (rcf == RCF_OK)
 	{
 		temp = atoi(vBuf);
@@ -706,7 +706,7 @@ void CRemoteControlDoc::LoadConfigFileData()
 		InterlockedExchange(&(m_PushServerDesktopThreadContext.lDesktopW) , SCREEN_SIZE_W);
 	
 	//推送桌面时的高度
-	rcf = ReadConfValue(CK_PUSH_SD_H , vBuf , 100 , this->m_czConfigfilePath);
+	rcf = ReadConfValue(CK_PUSH_SD_H , vBuf , 100 , m_czConfigfilePath);
 	if (rcf == RCF_OK)
 	{
 		temp = atoi(vBuf);
@@ -715,7 +715,7 @@ void CRemoteControlDoc::LoadConfigFileData()
 		InterlockedExchange(&(m_PushServerDesktopThreadContext.lDesktopH) , SCREEN_SIZE_H);
 	
 	//推送桌面时的质量
-	rcf = ReadConfValue(CK_PUSH_SD_QUALITY , vBuf , 100 , this->m_czConfigfilePath);
+	rcf = ReadConfValue(CK_PUSH_SD_QUALITY , vBuf , 100 , m_czConfigfilePath);
 	if (rcf == RCF_OK)
 	{
 		temp = atoi(vBuf);
@@ -724,7 +724,7 @@ void CRemoteControlDoc::LoadConfigFileData()
 		InterlockedExchange(&(m_PushServerDesktopThreadContext.lDesktopQuality), DEFAULT_SCREEN_QUALITY );
 
 	//推送桌面时的流畅度
-	rcf = ReadConfValue(CK_PUSH_SD_FREQUNCY , vBuf , 100 , this->m_czConfigfilePath);
+	rcf = ReadConfValue(CK_PUSH_SD_FREQUNCY , vBuf , 100 , m_czConfigfilePath);
 	if (rcf == RCF_OK)
 	{
 		temp = atoi(vBuf);
@@ -733,7 +733,7 @@ void CRemoteControlDoc::LoadConfigFileData()
 		InterlockedExchange(&(m_PushServerDesktopThreadContext.lDesktopFrequency) , DEFAULT_FREQUENCY_LEVEL );
 
 	//推送桌面时的是否锁定长高比
-	rcf = ReadConfValue(CK_PUSH_SD_LOCK_RATIO , vBuf , 100 , this->m_czConfigfilePath);
+	rcf = ReadConfValue(CK_PUSH_SD_LOCK_RATIO , vBuf , 100 , m_czConfigfilePath);
 	if (rcf == RCF_OK)
 	{
 		temp = atoi(vBuf);
@@ -744,7 +744,7 @@ void CRemoteControlDoc::LoadConfigFileData()
 
 	{//CMD窗口的配置数据加载
 	//字体颜色
-	rcf = ReadConfValue(CK_CMD_FONT_COLOR , vBuf , 100 , this->m_czConfigfilePath);
+	rcf = ReadConfValue(CK_CMD_FONT_COLOR , vBuf , 100 , m_czConfigfilePath);
 	if (rcf == RCF_OK)
 	{
 		temp = atoi(vBuf);
@@ -752,7 +752,7 @@ void CRemoteControlDoc::LoadConfigFileData()
 	}else
 		m_cmdValue.nCMD_FontColor = RGB(255 , 255 , 255);//默认白色
 	//背景颜色
-	rcf = ReadConfValue(CK_CMD_BG_COLOR , vBuf , 100 , this->m_czConfigfilePath);
+	rcf = ReadConfValue(CK_CMD_BG_COLOR , vBuf , 100 , m_czConfigfilePath);
 	if (rcf == RCF_OK)
 	{
 		temp = atoi(vBuf);
@@ -760,7 +760,7 @@ void CRemoteControlDoc::LoadConfigFileData()
 	}else
 		m_cmdValue.nCMD_BackgroundColor = RGB(0 , 0 , 0);//默认黑色;
 	//字体大小
-	rcf = ReadConfValue(CK_CMD_FONT_SIZE , vBuf , 100 , this->m_czConfigfilePath);
+	rcf = ReadConfValue(CK_CMD_FONT_SIZE , vBuf , 100 , m_czConfigfilePath);
 	if (rcf == RCF_OK)
 	{
 		temp = atoi(vBuf);
@@ -768,7 +768,7 @@ void CRemoteControlDoc::LoadConfigFileData()
 	}else
 		m_cmdValue.nCMD_FontSize = -25;
 	//字体字符集
-	rcf = ReadConfValue(CK_CMD_FONT_CHAR_SET , vBuf , 100 , this->m_czConfigfilePath);
+	rcf = ReadConfValue(CK_CMD_FONT_CHAR_SET , vBuf , 100 , m_czConfigfilePath);
 	if (rcf == RCF_OK)
 	{
 		temp = atoi(vBuf);
@@ -776,7 +776,7 @@ void CRemoteControlDoc::LoadConfigFileData()
 	}else
 		m_cmdValue.nCMD_FontCharset = 1;
 	//字体名字
-	rcf = ReadConfValue(CK_CMD_FONT_FACENAME , vBuf , 100 , this->m_czConfigfilePath);
+	rcf = ReadConfValue(CK_CMD_FONT_FACENAME , vBuf , 100 , m_czConfigfilePath);
 	if (rcf == RCF_OK)
 	{
 		strcpy(m_cmdValue.czCMD_FontFaceName , vBuf);
@@ -934,7 +934,7 @@ void CRemoteControlDoc::OnRcFindServerBraodcast( const CString& ip, const void* 
 		{//客户端已经存在
 			if ((*it)->mIsOnline == FALSE)
 			{//如果之前客户端是掉线了的，则现在需要发送一个消息，便于客户端获取服务器的地址
-				this->m_pMsgCenter->SendMsg(ip , pMsg->port , &rcMsg);
+				m_pMsgCenter->SendMsg(ip , pMsg->port , &rcMsg);
 				(*it)->mPort = pMsg->port;
 				(*it)->mName = _T("");
 				(*it)->mName  += pMsg->name;
@@ -952,7 +952,7 @@ void CRemoteControlDoc::OnRcFindServerBraodcast( const CString& ip, const void* 
 		AddClient(ip, pMsg->port , name);
 
 		//如果这个客户端是新添加的话，则还是需要发送一个消息，便于客户端获取服务器的地址
-		this->m_pMsgCenter->SendMsg(ip , pMsg->port , &rcMsg);
+		m_pMsgCenter->SendMsg(ip , pMsg->port , &rcMsg);
 
 	}
 	//刷新客户端列表控件中显示的数据
@@ -1034,32 +1034,32 @@ void CRemoteControlDoc::ChangePushCfgValue( PPUSH_CFG_V pushValue )
 	{//推送桌面时的宽度
 		InterlockedExchange(&(m_PushServerDesktopThreadContext.lDesktopW) , pushValue->nPush_DesktopW);
 		WriteConfValue(CK_PUSH_SD_W , itoa( (int)pushValue->nPush_DesktopW , vBuf , 10)
-			, this->m_czConfigfilePath);
+			, m_czConfigfilePath);
 	}
 
 	if (m_PushServerDesktopThreadContext.lDesktopH != pushValue->nPush_DesktopH)
 	{//推送桌面时的高度
 		InterlockedExchange(&(m_PushServerDesktopThreadContext.lDesktopH) , pushValue->nPush_DesktopH);
 		WriteConfValue(CK_PUSH_SD_H , itoa( (int)pushValue->nPush_DesktopH , vBuf , 10) 
-			, this->m_czConfigfilePath);
+			, m_czConfigfilePath);
 	}
 	if (m_PushServerDesktopThreadContext.lDesktopQuality != pushValue->nPush_DesktopQuality)
 	{//推送桌面时的质量
 		InterlockedExchange(&(m_PushServerDesktopThreadContext.lDesktopQuality) , pushValue->nPush_DesktopQuality);
 		WriteConfValue(CK_PUSH_SD_QUALITY , itoa( (int)pushValue->nPush_DesktopQuality , vBuf , 10) 
-			, this->m_czConfigfilePath);
+			, m_czConfigfilePath);
 	}
 	if (m_PushServerDesktopThreadContext.lDesktopFrequency != pushValue->nPush_DesktopFrequency)
 	{//推送桌面时的流畅度
 		InterlockedExchange(&(m_PushServerDesktopThreadContext.lDesktopFrequency) , pushValue->nPush_DesktopFrequency);
 		WriteConfValue(CK_PUSH_SD_FREQUNCY , itoa( (int)pushValue->nPush_DesktopFrequency , vBuf , 10)
-			, this->m_czConfigfilePath);
+			, m_czConfigfilePath);
 	}
 	if (m_bLockScreenSizeRatio != pushValue->bPush_LockScreenSizeRatio)
 	{//推送桌面时的是否锁定长高比
 		m_bLockScreenSizeRatio = pushValue->bPush_LockScreenSizeRatio;
 		WriteConfValue(CK_PUSH_SD_LOCK_RATIO , itoa( (int)pushValue->bPush_LockScreenSizeRatio , vBuf , 10) 
-			, this->m_czConfigfilePath);
+			, m_czConfigfilePath);
 	}
 }
 
@@ -1071,32 +1071,32 @@ void CRemoteControlDoc::ChangeCMDCfgValue( PCMD_CFG_V cmdValue )
 	if (strcmp(m_cmdValue.czCMD_FontFaceName , cmdValue->czCMD_FontFaceName))
 	{//字体名字
 		strcpy(m_cmdValue.czCMD_FontFaceName , cmdValue->czCMD_FontFaceName);
-		WriteConfValue(CK_CMD_FONT_FACENAME , cmdValue->czCMD_FontFaceName, this->m_czConfigfilePath);
+		WriteConfValue(CK_CMD_FONT_FACENAME , cmdValue->czCMD_FontFaceName, m_czConfigfilePath);
 	}
 
 	if (m_cmdValue.nCMD_BackgroundColor != cmdValue->nCMD_BackgroundColor)
 	{//背景颜色
 		m_cmdValue.nCMD_BackgroundColor = cmdValue->nCMD_BackgroundColor;
 		WriteConfValue(CK_CMD_BG_COLOR , itoa( (int)cmdValue->nCMD_BackgroundColor , vBuf , 10) 
-			, this->m_czConfigfilePath);
+			, m_czConfigfilePath);
 	}
 	if (m_cmdValue.nCMD_FontCharset != cmdValue->nCMD_FontCharset)
 	{//字符集
 		m_cmdValue.nCMD_FontCharset = cmdValue->nCMD_FontCharset;
 		WriteConfValue(CK_CMD_FONT_CHAR_SET , itoa( (int)cmdValue->nCMD_FontCharset , vBuf , 10) 
-			, this->m_czConfigfilePath);
+			, m_czConfigfilePath);
 	}
 	if (m_cmdValue.nCMD_FontColor != cmdValue->nCMD_FontColor)
 	{//字体颜色
 		m_cmdValue.nCMD_FontColor = cmdValue->nCMD_FontColor;
 		WriteConfValue(CK_CMD_FONT_COLOR, itoa( (int)cmdValue->nCMD_FontColor , vBuf , 10)
-			, this->m_czConfigfilePath);
+			, m_czConfigfilePath);
 	}
 	if (m_cmdValue.nCMD_FontSize != cmdValue->nCMD_FontSize )
 	{//字体大小
 		m_cmdValue.nCMD_FontSize = cmdValue->nCMD_FontSize;
 		WriteConfValue(CK_CMD_FONT_SIZE , itoa( (int)cmdValue->nCMD_FontSize , vBuf , 10) 
-			, this->m_czConfigfilePath);
+			, m_czConfigfilePath);
 	}
 
 	//便利每一个窗口通知其改变配置数据
@@ -1121,14 +1121,14 @@ void CRemoteControlDoc::AddClient( const CString& ip, USHORT port ,  const CStri
 	client->mDocManageDlg = NULL;
 	m_lstClient.push_back(client);
 
-	this->FlushClientCtrl();
+	FlushClientCtrl();
 }
 
 void CRemoteControlDoc::SendAllClient( PRCMSG rcMsg )
 {
 	for (ClientList::iterator it = m_lstClient.begin() ; it != m_lstClient.end() ; ++it)
 	{
-		this->m_pMsgCenter->SendMsg((*it)->mIP , (*it)->mPort , rcMsg);
+		m_pMsgCenter->SendMsg((*it)->mIP , (*it)->mPort , rcMsg);
 	}
 }
 
@@ -1377,12 +1377,12 @@ PClientDescripter CRemoteControlDoc::GetClientDescripter( const CString& ip )
 
 void CRemoteControlDoc::OnDownload()
 {
-	this->m_pDownUploadDlg->ShowWindow(m_pDownUploadDlg->IsWindowVisible()?SW_HIDE:SW_SHOW);
+	m_pDownUploadDlg->ShowWindow(m_pDownUploadDlg->IsWindowVisible()?SW_HIDE:SW_SHOW);
 }
 
 void CRemoteControlDoc::OnUpdateDownload(CCmdUI *pCmdUI)
 {
-	if(this->m_pDownUploadDlg->IsWindowVisible())
+	if(m_pDownUploadDlg->IsWindowVisible())
 		pCmdUI->SetCheck(TRUE);
 	else 
 		pCmdUI->SetCheck(FALSE);

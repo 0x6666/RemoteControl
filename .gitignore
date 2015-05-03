@@ -1,2 +1,9 @@
 Debug
+Backup
+Release
+ipch
+UpgradeLog.htm
+*.opensdf
+*.sdf
+*.vcxproj.filters
 *.user
